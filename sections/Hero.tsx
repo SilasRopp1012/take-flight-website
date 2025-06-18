@@ -2,7 +2,7 @@ import Image from 'next/image'
 import styled, { keyframes } from 'styled-components'
 import { theme } from '@/config/theme'
 import { images } from '@/config/images'
-import { useRef, useEffect, useState } from 'react'
+import { content } from '@/config/content'
 
 const fadeInUp = keyframes`
   from {
@@ -193,11 +193,15 @@ export function Hero() {
       <HeroOverlay />
       <HeroContent>
         <HeroTitle>
-          New Mexico Birding,<br />
-          Done Right.
+          {content.hero.title.split('\n').map((line, index) => (
+            <span key={index}>
+              {line}
+              {index === 0 && <br />}
+            </span>
+          ))}
         </HeroTitle>
         <HeroSubtitle>
-        Explore the trails and skies of NM with a lifelong birder as your guide. Offering personalized tours, educational group adventures, and field-based classes.
+          {content.hero.subtitle}
         </HeroSubtitle>
       </HeroContent>
       

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { theme } from '@/config/theme'
+import { content } from '@/config/content'
 
 const ContactSection = styled.section`
   padding: ${theme.spacing['3xl']} 0;
@@ -212,24 +213,21 @@ export function Contact() {
         <ContactGrid>
           <ContactInfo>
             <div>
-              <h2>Get In Touch</h2>
-              <p>
-                Ready to embark on your birding adventure? Contact me to book a tour, 
-                ask questions, or learn more about upcoming group events.
-              </p>
+              <h2>{content.contact.title}</h2>
+              <p>{content.contact.description}</p>
             </div>
             
             <ContactDetails>
               <ContactItem>
-                <a href="mailto:chris.chappell4@gmail.com">chris.chappell4@gmail.com</a>
+                <a href={`mailto:${content.contact.email}`}>{content.contact.email}</a>
               </ContactItem>
               
               <ContactItem>
-                <a href="tel:+15053103205">(505)-310-3205</a>
+                <a href={`tel:+1${content.contact.phone.replace(/\D/g, '')}`}>{content.contact.phone}</a>
               </ContactItem>
               
               <ContactItem>
-                <span>Santa Fe, NM</span>
+                <span>{content.contact.location}</span>
               </ContactItem>
             </ContactDetails>
           </ContactInfo>
@@ -237,7 +235,7 @@ export function Contact() {
           <ContactForm onSubmit={handleSubmit}>
             {isSubmitted && (
               <SuccessMessage>
-                Thank you! I'll get back to you when I can.
+                {content.contact.successMessage}
               </SuccessMessage>
             )}
             

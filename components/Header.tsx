@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { theme } from '@/config/theme'
+import { content } from '@/config/content'
 
 const HeaderContainer = styled.header<{ isScrolled: boolean }>`
   position: fixed;
@@ -184,14 +185,6 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
   }
 `
 
-const navItems = [
-  { href: '#hero', label: 'Home' },
-  { href: '#about', label: 'About' },
-  { href: '#tours', label: 'Tours' },
-  { href: '#testimonials', label: 'Testimonials' },
-  { href: '#contact', label: 'Contact' },
-]
-
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -237,12 +230,12 @@ export function Header() {
     <HeaderContainer isScrolled={isScrolled}>
       <Nav>
         <Logo isScrolled={isScrolled}>
-          <LogoTitle isScrolled={isScrolled}>Take Flight</LogoTitle>
-          <LogoSubtitle isScrolled={isScrolled}>Birding and Nature Adventures</LogoSubtitle>
+          <LogoTitle isScrolled={isScrolled}>{content.header.title}</LogoTitle>
+          <LogoSubtitle isScrolled={isScrolled}>{content.header.subtitle}</LogoSubtitle>
         </Logo>
         
         <NavLinks isScrolled={isScrolled}>
-          {navItems.map((item) => (
+          {content.navigation.map((item) => (
             <NavLink key={item.href}>
               <a 
                 href={item.href} 
@@ -268,7 +261,7 @@ export function Header() {
 
       <MobileMenu isOpen={isMobileMenuOpen}>
         <ul>
-          {navItems.map((item) => (
+          {content.navigation.map((item) => (
             <NavLink key={item.href}>
               <a 
                 href={item.href} 

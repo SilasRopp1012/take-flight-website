@@ -2,6 +2,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import { theme } from '@/config/theme'
 import { images } from '@/config/images'
+import { content } from '@/config/content'
 import { useRef, useEffect, useState } from 'react'
 
 const AboutSection = styled.section`
@@ -127,27 +128,12 @@ export function About() {
       <Container>
         <AboutGrid>
           <AboutContent progress={scrollProgress}>
-            <AboutTitle progress={scrollProgress}>About Me</AboutTitle>
-            <AboutParagraph progress={scrollProgress} delay={0.1}>
-              Hi! I'm Chris, and birding has been a passion of mine for over 50 years. 
-              I grew up in Washington state where I learned to "bird by ear" at the age of 12, a skill
-              that I have been honing ever since.
-            </AboutParagraph>
-            <AboutParagraph progress={scrollProgress} delay={0.2}>
-              I studied ornithology intensively during my undergraduate years and worked as a field ornithologist throughout my 20s.
-              I later earned a master's degree in Forest Ecology and spent many years working as a Vegetation Ecologist with the 
-              Washington Natural Heritage Program, where I focused on conservation and ecological research.
-            </AboutParagraph>
-            <AboutParagraph progress={scrollProgress} delay={0.3}>
-              Since moving to the Southwest in 2007, I have been extensively exploring northern New Mexico and its incredible birdlife.
-              Today, I bring together decades of experience in bird behavior, habitat, vegetation, and ecosystems to offer 
-              guided trips that are as informative as they are immersive. I also regularly volunteer leading bird walks at the 
-              Randall Davey Audubon Center.
-            </AboutParagraph>
-            <AboutParagraph progress={scrollProgress} delay={0.4}>
-            Most of my tours are within a day's drive of Santa Fe, though I occasionally lead overnight trips to special places by request,
-            including Bosque del Apache and the Bitter Lake/Roswell area.
-            </AboutParagraph>
+            <AboutTitle progress={scrollProgress}>{content.about.title}</AboutTitle>
+            {content.about.paragraphs.map((paragraph, index) => (
+              <AboutParagraph key={index} progress={scrollProgress} delay={0.1 + (index * 0.1)}>
+                {paragraph}
+              </AboutParagraph>
+            ))}
           </AboutContent>
           <AboutImageContainer progress={scrollProgress}>
             <Image

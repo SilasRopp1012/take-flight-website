@@ -2,6 +2,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import { theme } from '@/config/theme'
 import { images } from '@/config/images'
+import { content } from '@/config/content'
 import { useRef, useEffect, useState } from 'react'
 
 const ToursSection = styled.section`
@@ -114,24 +115,6 @@ const TourContent = styled.div`
   }
 `
 
-const offerings = [
-  {
-    id: 'personalized',
-    title: 'Personalized Birding Tours',
-    description: 'Tailored one-on-one or small group experiences designed around your specific interests, skill level, and schedule. Whether you\'re a beginner wanting to learn the basics or an experienced birder seeking rare species, we create custom adventures just for you.',
-  },
-  {
-    id: 'group',
-    title: 'Group Educational Adventures',
-    description: 'Join our regularly scheduled group birding tours that combine the joy of discovery with educational insights. Perfect for meeting fellow birding enthusiasts while learning about local species, habitats, and conservation efforts in a supportive group setting.',
-  },
-  {
-    id: 'classes',
-    title: 'Field-Based Birding Classes',
-    description: 'Hands-on learning experiences that take you directly into the field to develop your birding skills. These occasional specialized classes focus on identification techniques, behavior observation, and habitat understanding in real-world settings.',
-  },
-]
-
 export function Tours() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
@@ -192,11 +175,11 @@ export function Tours() {
       
       <Container>
         <SectionHeader progress={scrollProgress}>
-          <h2>Tours</h2>
+          <h2>{content.tours.title}</h2>
         </SectionHeader>
         
         <ToursGrid>
-          {offerings.map((offering, index) => (
+          {content.tours.offerings.map((offering, index) => (
             <TourItem 
               key={offering.id} 
               progress={scrollProgress}

@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { theme } from '@/config/theme'
+import { content } from '@/config/content'
 
 const TestimonialsSection = styled.section`
   padding: ${theme.spacing['3xl']} 0;
@@ -116,53 +117,6 @@ const TestimonialAuthor = styled.p`
   text-align: right;
 `
 
-const testimonials = [
-  {
-    text: "Chris is a very knowledgeable birder and excellent bird guide. His trips are enjoyable and educational; you end the day a better birder than you were at the beginning.",
-    author: "Jan Swaney"
-  },
-  {
-    text: "I always learn so much when going birding with Chris. He is incredibly knowledgeable and excited about all birds, whether they are common or not.",
-    author: "Maggie Schmitt"
-  },
-  {
-    text: "I am a new birder and have found Chris to be inspiring and patient. He has made this new hobby for me extremely fun!",
-    author: "Marjorie McConnell"
-  },
-  {
-    text: "Chris is the best birding guide I've had the good fortune to meet in New Mexico. His detailed knowledge of birding hotspots is unmatched.",
-    author: "Brian Boyer"
-  },
-  {
-    text: "Chris went to great lengths to find as many live birds for us as possible and kept E-Bird lists for us throughout the day.",
-    author: "Cheryl Killingsworth"
-  },
-  {
-    text: "He is extremely knowledgeable about birds and New Mexico, and is very attentive to the needs of the group.",
-    author: "Bob Foehring"
-  },
-  {
-    text: "Chris is consistently punctual and well-prepared, making each trip both enjoyable and educational.",
-    author: "Ken Bales"
-  },
-  {
-    text: "It absolutely and truly changed my niece's life. NO ONE compares to our first experience with Chris.",
-    author: "Eva Marie Shahade"
-  },
-  {
-    text: "Chris is an amazing birder and ecologist. We always learn so much about the birds and the biome where we are birding.",
-    author: "Laura Hitt"
-  },
-  {
-    text: "His enthusiasm for birding was apparent right away, and he was a patient and encouraging teacher!",
-    author: "Katie Pezold"
-  },
-  {
-    text: "Chris has a great ear and a great eye for birds. He also knows plants, local ecology, and is a pleasure to be with in the field.",
-    author: "John Fleckenstein"
-  }
-]
-
 export function Testimonials() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
@@ -248,16 +202,14 @@ export function Testimonials() {
   }, [])
 
   // Create seamless infinite scroll by duplicating testimonials
-  const infiniteTestimonials = [...testimonials, ...testimonials]
+  const infiniteTestimonials = [...content.testimonials.testimonials, ...content.testimonials.testimonials]
 
   return (
     <TestimonialsSection id="testimonials" ref={sectionRef}>
       <Container>
         <SectionHeader progress={scrollProgress}>
-          <h2>What Birders Are Saying</h2>
-          <p>
-            Real stories from those who've explored New Mexico's birdlife with a guide who knows it best.
-          </p>
+          <h2>{content.testimonials.title}</h2>
+          <p>{content.testimonials.subtitle}</p>
         </SectionHeader>
         
         <ScrollContainer ref={containerRef} progress={scrollProgress}>
