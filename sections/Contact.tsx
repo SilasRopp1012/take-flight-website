@@ -32,6 +32,8 @@ const ContactInfo = styled.div`
 
   h2 {
     color: ${theme.colors.primary};
+    font-size: ${theme.fontSizes['5xl']};
+    text-align: left;
     margin-bottom: ${theme.spacing.lg};
   }
 

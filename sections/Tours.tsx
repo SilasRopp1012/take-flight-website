@@ -47,7 +47,7 @@ const Container = styled.div`
 `
 
 const SectionHeader = styled.div<{ progress: number }>`
-  text-align: center;
+  text-align: right;
   margin-bottom: ${theme.spacing['2xl']};
   opacity: ${props => Math.max(0, Math.min(1, props.progress * 1.5))};
   transform: translateY(${props => (1 - Math.max(0, Math.min(1, props.progress * 1.5))) * 30}px);
@@ -55,6 +55,7 @@ const SectionHeader = styled.div<{ progress: number }>`
 
   h2 {
     color: ${theme.colors.text.light};
+    font-size: ${theme.fontSizes['6xl']};
     margin-bottom: 0;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   }
@@ -72,7 +73,7 @@ const ToursGrid = styled.div`
 `
 
 const TourItem = styled.div<{ progress: number; delay: number }>`
-  text-align: center;
+  text-align: left;
   padding: ${theme.spacing.xl} ${theme.spacing.lg};
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
@@ -109,6 +110,7 @@ const TourContent = styled.div`
   p {
     color: rgba(255, 255, 255, 0.9);
     font-size: ${theme.fontSizes.base};
+    line-spacing: ${theme.spacing.md};
     line-height: 1.6;
     margin: 0;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);

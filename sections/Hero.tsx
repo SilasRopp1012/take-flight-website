@@ -111,7 +111,7 @@ const HeroTitle = styled.h1`
 `
 
 const HeroSubtitle = styled.p`
-  font-size: ${theme.fontSizes.xl};
+  font-size: ${theme.fontSizes.base};
   margin-bottom: 0;
   font-weight: 300;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);

@@ -39,6 +39,7 @@ const AboutContent = styled.div<{ progress: number }>`
 
   h2 {
     color: ${theme.colors.primary};
+    font-size: ${theme.fontSizes['5xl']};
     margin-bottom: ${theme.spacing.lg};
   }
 

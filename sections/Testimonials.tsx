@@ -22,14 +22,9 @@ const SectionHeader = styled.div<{ progress: number }>`
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   h2 {
-    color: ${theme.colors.accent};
+    color: ${theme.colors.primary};
+    font-size: ${theme.fontSizes['5xl']};
     margin-bottom: ${theme.spacing.md};
-  }
-
-  p {
-    color: ${theme.colors.text.secondary};
-    max-width: 600px;
-    margin: 0 auto;
   }
 `
 
@@ -209,7 +204,6 @@ export function Testimonials() {
       <Container>
         <SectionHeader progress={scrollProgress}>
           <h2>{content.testimonials.title}</h2>
-          <p>{content.testimonials.subtitle}</p>
         </SectionHeader>
         
         <ScrollContainer ref={containerRef} progress={scrollProgress}>

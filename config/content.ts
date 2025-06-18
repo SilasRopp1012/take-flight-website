@@ -33,7 +33,7 @@ export const content = {
 
   // Tours Section
   tours: {
-    title: "Tours",
+    title: "Tour Offerings",
     offerings: [
       {
         id: 'personalized',
@@ -42,7 +42,7 @@ export const content = {
       },
       {
         id: 'group',
-        title: 'Group Educational Adventures',
+        title: 'Educational Group Adventures',
         description: 'Join my regularly scheduled group birding tours that combine the joy of birding with educational insights. Perfect for meeting fellow bird enthusiasts while learning about local species and habitats.',
       },
       {
@@ -56,7 +56,7 @@ export const content = {
   // Testimonials Section
   testimonials: {
     title: "What People Are Saying",
-    subtitle: "Real stories from those who've explored New Mexico's birdlife with a guide who knows it best.",
+    subtitle: "Real stories from those who've explored NM's birdlife with Chris.",
     testimonials: [
       {
         text: "Chris is a very knowledgeable birder and excellent bird guide. His trips are enjoyable and educational; you end the day a better birder than you were at the beginning.",
