@@ -43,12 +43,12 @@ export const content = {
       {
         id: 'group',
         title: 'Group Educational Adventures',
-        description: 'Join my regularly scheduled group birding tours that combine the joy of discovery with educational insights. Perfect for meeting fellow birding enthusiasts while learning about local species, habitats, and conservation efforts.',
+        description: 'Join my regularly scheduled group birding tours that combine the joy of birding with educational insights. Perfect for meeting fellow bird enthusiasts while learning about local species and habitats.',
       },
       {
         id: 'classes',
         title: 'Field-Based Birding Classes',
-        description: 'Hands-on learning experiences that take you directly into the field to develop your birding skills. These occasional specialized classes focus on bird identification, behavior observation, and habitat in real-world settings.',
+        description: 'Hands-on learning experiences that take you directly into the field to develop your birding skills. These occasional specialized classes focus on learning about bird identification, behavior, and habitat.',
       },
     ]
   },
