@@ -141,10 +141,19 @@ const MobileMenuButton = styled.button<{ isScrolled: boolean }>`
 `
 
 const MobileMenu = styled.div<{ isOpen: boolean }>`
-  display: ${props => props.isOpen ? 'block' : 'none'};
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
   background-color: ${theme.colors.background.primary};
   border-top: 1px solid ${theme.colors.background.secondary};
   padding: ${theme.spacing.md};
+  
+  /* Smooth animation */
+  transform: translateY(${props => props.isOpen ? '0' : '-100%'});
+  opacity: ${props => props.isOpen ? '1' : '0'};
+  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
   
   ul {
     display: flex;
@@ -169,6 +178,7 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
     }
   }
 
+  /* Only show on mobile */
   @media (min-width: ${theme.breakpoints.md}) {
     display: none;
   }

@@ -42,6 +42,13 @@ const HeroBackground = styled.div`
   right: 0;
   bottom: 0;
   z-index: -2;
+  
+  /* Mobile-specific background centering */
+  @media (max-width: ${theme.breakpoints.md}) {
+    img {
+      object-position: center center !important;
+    }
+  }
 `
 
 const HeroOverlay = styled.div`
