@@ -1,0 +1,52 @@
+{
+  "hero": {
+    "title": "Take Flight",
+    "subtitle": "Discover the wonder of birds with guided tours that connect you to nature's most graceful creatures",
+    "ctaText": "Explore Our Tours"
+  },
+  "about": {
+    "title": "About Take Flight",
+    "paragraphs": [
+      "Welcome to Take Flight Birding and Nature Adventures, where passion meets expertise in the world of bird watching. Our mission is to share the incredible beauty and diversity of birds while fostering a deeper connection with nature.",
+      "Led by experienced naturalists and bird enthusiasts, our tours combine education, conservation awareness, and pure joy of discovery. Whether you're a seasoned birder or just beginning your journey into the avian world, we create memorable experiences tailored to your interests and skill level.",
+      "We believe that every birding adventure should be both relaxing and educational, allowing you to disconnect from daily stress while learning about the fascinating behaviors, habitats, and conservation stories of our feathered friends."
+    ]
+  },
+  "tours": {
+    "title": "Our Tours",
+    "subtitle": "Choose from our carefully designed birding experiences, each offering unique opportunities to connect with nature and discover amazing bird species.",
+    "list": [
+      {
+        "id": "morning",
+        "title": "Early Bird Morning Tour",
+        "description": "Start your day with the symphony of dawn chorus. Perfect for spotting active songbirds and raptors as they begin their daily routines.",
+        "price": "$45",
+        "duration": "3 hours"
+      },
+      {
+        "id": "sunset",
+        "title": "Golden Hour Birding",
+        "description": "Experience the magic of sunset birding when many species are most active. Watch for owls, nighthawks, and evening feeders.",
+        "price": "$55",
+        "duration": "2.5 hours"
+      },
+      {
+        "id": "weekend",
+        "title": "Weekend Nature Immersion",
+        "description": "A full-day adventure combining birding with nature photography and habitat education. Includes lunch and all equipment.",
+        "price": "$125",
+        "duration": "Full day"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Ready to embark on your birding adventure? Contact us to book a tour, ask questions, or learn more about our upcoming expeditions.",
+    "details": {
+      "email": "hello@takeflightbirding.com",
+      "phone": "(555) 123-BIRD (2473)",
+      "location": "Pacific Northwest, USA",
+      "availability": "Tours available year-round"
+    }
+  }
+} 
