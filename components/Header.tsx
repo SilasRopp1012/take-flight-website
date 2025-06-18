@@ -33,12 +33,14 @@ const Nav = styled.nav`
   align-items: center;
 `
 
-const Logo = styled.div<{ isScrolled: boolean }>`
+const Logo = styled.a<{ isScrolled: boolean }>`
   display: flex;
   flex-direction: column;
   line-height: 1;
   text-align: center;
   transition: color 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
 `
 
 const LogoTitle = styled.div<{ isScrolled: boolean }>`
@@ -189,6 +191,14 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
+  const handleLogoClick = () => {
+    setIsMobileMenuOpen(false)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       // Start transition much earlier - at 50% of hero height
@@ -229,7 +239,7 @@ export function Header() {
   return (
     <HeaderContainer isScrolled={isScrolled}>
       <Nav>
-        <Logo isScrolled={isScrolled}>
+        <Logo isScrolled={isScrolled} onClick={handleLogoClick}>
           <LogoTitle isScrolled={isScrolled}>{content.header.title}</LogoTitle>
           <LogoSubtitle isScrolled={isScrolled}>{content.header.subtitle}</LogoSubtitle>
         </Logo>

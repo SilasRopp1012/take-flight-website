@@ -4,7 +4,7 @@ import { theme } from '@/config/theme'
 import { content } from '@/config/content'
 
 const TestimonialsSection = styled.section`
-  padding: ${theme.spacing['3xl']} 0;
+  padding: 12rem 0;
   background-color: ${theme.colors.background.primary};
 `
 

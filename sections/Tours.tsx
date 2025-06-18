@@ -7,7 +7,7 @@ import { useRef, useEffect, useState } from 'react'
 
 const ToursSection = styled.section`
   position: relative;
-  padding: ${theme.spacing['3xl']} 0;
+  padding: 12rem 0;
   background-color: ${theme.colors.background.primary};
   overflow: hidden;
 `

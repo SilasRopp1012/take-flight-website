@@ -1,7 +1,6 @@
 export const content = {
   // Navigation
   navigation: [
-    { href: '#hero', label: 'Home' },
     { href: '#about', label: 'About' },
     { href: '#tours', label: 'Tours' },
     { href: '#testimonials', label: 'Testimonials' },
