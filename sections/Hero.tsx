@@ -2,6 +2,7 @@ import Image from 'next/image'
 import styled, { keyframes } from 'styled-components'
 import { theme } from '@/config/theme'
 import { images } from '@/config/images'
+import { useRef, useEffect, useState } from 'react'
 
 const fadeInUp = keyframes`
   from {
@@ -29,6 +30,7 @@ const bounce = keyframes`
 const HeroSection = styled.section`
   position: relative;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height - accounts for Safari bars */
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
@@ -142,6 +144,7 @@ const ScrollIndicator = styled.div`
   
   @media (max-width: ${theme.breakpoints.md}) {
     bottom: ${theme.spacing.xs};
+    left: calc(50% - 25px); /* Mobile-only: slight left adjustment for centering */
   }
 `
 
