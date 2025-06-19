@@ -122,9 +122,9 @@ const TestimonialAuthor = styled.p`
 
 export function Testimonials() {
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,33 +133,24 @@ export function Testimonials() {
       const rect = sectionRef.current.getBoundingClientRect()
       const windowHeight = window.innerHeight
       
-      // Calculate progress based on how much of the section is visible
       const sectionTop = rect.top
       
-      // Start animation when section enters viewport, complete when it's centered
-      const startPoint = windowHeight * 0.8 // Start when 80% down the viewport
-      const endPoint = windowHeight * 0.2   // Complete when 20% down the viewport
+      const startPoint = windowHeight * 0.8
+      const endPoint = windowHeight * 0.2
       
       let progress = 0
       
       if (sectionTop <= startPoint && sectionTop >= endPoint) {
-        // Calculate progress between 0 and 1
         progress = (startPoint - sectionTop) / (startPoint - endPoint)
       } else if (sectionTop < endPoint) {
-        // Fully visible
         progress = 1
       }
       
-      // Clamp progress between 0 and 1
       progress = Math.max(0, Math.min(1, progress))
-      
       setScrollProgress(progress)
     }
 
-    // Initial calculation
     handleScroll()
-    
-    // Add scroll listener with passive flag for better performance
     window.addEventListener('scroll', handleScroll, { passive: true })
     
     return () => {
