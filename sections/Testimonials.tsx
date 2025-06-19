@@ -8,11 +8,11 @@ const TestimonialsSection = styled.section`
   background-color: ${theme.colors.background.primary};
   
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 6rem 0;
+    padding: 10rem 0;
   }
   
   @media (max-width: ${theme.breakpoints.sm}) {
-    padding: 4rem 0;
+    padding: 8rem 0;
   }
 `
 
@@ -22,11 +22,11 @@ const Container = styled.div`
   padding: 0 ${theme.spacing.md};
 `
 
-const SectionHeader = styled.div<{ progress: number }>`
+const SectionHeader = styled.div<{ $progress: number }>`
   text-align: center;
   margin-bottom: ${theme.spacing['2xl']};
-  opacity: ${props => Math.max(0, Math.min(1, props.progress * 1.5))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, props.progress * 1.5))) * 30}px);
+  opacity: ${props => Math.max(0, Math.min(1, props.$progress * 1.5))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, props.$progress * 1.5))) * 30}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   h2 {
@@ -36,13 +36,13 @@ const SectionHeader = styled.div<{ progress: number }>`
   }
 `
 
-const ScrollContainer = styled.div<{ progress: number }>`
+const ScrollContainer = styled.div<{ $progress: number }>`
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.2) * 2))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.2) * 2))) * 40}px);
+  opacity: ${props => Math.max(0, Math.min(1, (props.$progress - 0.2) * 2))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - 0.2) * 2))) * 40}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
   
   &::-webkit-scrollbar {
@@ -61,13 +61,13 @@ const ScrollContainer = styled.div<{ progress: number }>`
   );
 `
 
-const TestimonialsWrapper = styled.div<{ isPaused: boolean }>`
+const TestimonialsWrapper = styled.div<{ $isPaused: boolean }>`
   display: flex;
   gap: ${theme.spacing['2xl']};
   width: fit-content;
   padding: ${theme.spacing.md} 0;
   animation: infiniteScroll 80s linear infinite;
-  animation-play-state: ${props => props.isPaused ? 'paused' : 'running'};
+  animation-play-state: ${props => props.$isPaused ? 'paused' : 'running'};
   
   @keyframes infiniteScroll {
     0% {
@@ -210,12 +210,12 @@ export function Testimonials() {
   return (
     <TestimonialsSection id="testimonials" ref={sectionRef}>
       <Container>
-        <SectionHeader progress={scrollProgress}>
+        <SectionHeader $progress={scrollProgress}>
           <h2>{content.testimonials.title}</h2>
         </SectionHeader>
         
-        <ScrollContainer ref={containerRef} progress={scrollProgress}>
-          <TestimonialsWrapper isPaused={isPaused}>
+        <ScrollContainer ref={containerRef} $progress={scrollProgress}>
+          <TestimonialsWrapper $isPaused={isPaused}>
             {infiniteTestimonials.map((testimonial, index) => (
               <TestimonialItem key={`${index}-${testimonial.author}`}>
                 <TestimonialText>

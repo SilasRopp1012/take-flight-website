@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Styled-Components Transient Props Rule
+
+### CRITICAL: Always Use Transient Props in Styled-Components
+
+When passing props to styled-components that are used for styling logic but should NOT be forwarded to the DOM element, ALWAYS use transient props with the `$` prefix.
+
+#### ✅ CORRECT Usage:
+```tsx
+// Styled component definition
+const StyledDiv = styled.div<{ $isVisible: boolean; $delay: number }>`
+  opacity: ${props => props.$isVisible ? 1 : 0};
+  transition-delay: ${props => props.$delay}s;
+`
+
+// JSX usage
+<StyledDiv $isVisible={isVisible} $delay={0.2}>Content</StyledDiv>
+```
+
+#### ❌ INCORRECT Usage (causes React warnings):
+```tsx
+// DON'T DO THIS - causes "unknown prop" warnings
+const StyledDiv = styled.div<{ isVisible: boolean; delay: number }>`
+  opacity: ${props => props.isVisible ? 1 : 0};
+  transition-delay: ${props => props.delay}s;
+`
+
+<StyledDiv isVisible={isVisible} delay={0.2}>Content</StyledDiv>
+```
+
+#### When to Use Transient Props:
+- Animation/transition states: `$progress`, `$isVisible`, `$isActive`
+- Layout calculations: `$width`, `$height`, `$offset`
+- Conditional styling: `$variant`, `$size`, `$theme`
+- Timing values: `$delay`, `$duration`
+- Any prop used ONLY for CSS logic, not DOM attributes
+
+#### When NOT to Use Transient Props:
+- Standard HTML attributes: `id`, `className`, `onClick`, `aria-*`, `data-*`
+- Form inputs: `value`, `onChange`, `placeholder`, `required`
+- Semantic attributes: `alt`, `src`, `href`, `target`
+
+#### Rule Summary:
+**If a prop is used for CSS styling/animation logic and shouldn't appear as a DOM attribute, prefix it with `$`**
+
+This prevents React warnings about "unknown props" being passed to DOM elements and follows styled-components best practices.

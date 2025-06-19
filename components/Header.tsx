@@ -3,19 +3,19 @@ import styled from 'styled-components'
 import { theme } from '@/config/theme'
 import { content } from '@/config/content'
 
-const HeaderContainer = styled.header<{ isScrolled: boolean }>`
+const HeaderContainer = styled.header<{ $isScrolled: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background-color: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? 'rgba(250, 250, 250, 1)' 
       : 'transparent'
   };
-  backdrop-filter: ${props => props.isScrolled ? 'blur(10px)' : 'none'};
+  backdrop-filter: ${props => props.$isScrolled ? 'blur(10px)' : 'none'};
   border-bottom: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? `1px solid ${theme.colors.background.secondary}` 
       : 'none'
   };
@@ -33,7 +33,7 @@ const Nav = styled.nav`
   align-items: center;
 `
 
-const Logo = styled.a<{ isScrolled: boolean }>`
+const Logo = styled.a<{ $isScrolled: boolean }>`
   display: flex;
   flex-direction: column;
   line-height: 1;
@@ -43,18 +43,18 @@ const Logo = styled.a<{ isScrolled: boolean }>`
   text-decoration: none;
 `
 
-const LogoTitle = styled.div<{ isScrolled: boolean }>`
+const LogoTitle = styled.div<{ $isScrolled: boolean }>`
   font-family: ${theme.fonts.heading};
   font-size: ${theme.fontSizes['3xl']};
   font-weight: 600;
   color: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? theme.colors.primary
       : theme.colors.text.light
   };
   margin-bottom: ${theme.spacing.xs};
   text-shadow: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? 'none' 
       : '2px 2px 4px rgba(0, 0, 0, 0.3)'
   };
@@ -65,26 +65,26 @@ const LogoTitle = styled.div<{ isScrolled: boolean }>`
   }
 `
 
-const LogoSubtitle = styled.div<{ isScrolled: boolean }>`
+const LogoSubtitle = styled.div<{ $isScrolled: boolean }>`
   font-family: ${theme.fonts.heading};
   font-size: ${theme.fontSizes.xs};
   font-weight: 400;
   color: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? theme.colors.primary 
       : theme.colors.text.light
   };
   text-transform: uppercase;
   letter-spacing: 1px;
   text-shadow: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? 'none' 
       : '1px 1px 2px rgba(0, 0, 0, 0.3)'
   };
   transition: all 0.3s ease;
 `
 
-const NavLinks = styled.ul<{ isScrolled: boolean }>`
+const NavLinks = styled.ul<{ $isScrolled: boolean }>`
   display: flex;
   list-style: none;
   gap: ${theme.spacing.lg};
@@ -95,7 +95,7 @@ const NavLinks = styled.ul<{ isScrolled: boolean }>`
     font-weight: 500;
     font-size: ${theme.fontSizes.base};
     color: ${props => 
-      props.isScrolled 
+      props.$isScrolled 
         ? theme.colors.text.primary 
         : theme.colors.text.light
     };
@@ -104,7 +104,7 @@ const NavLinks = styled.ul<{ isScrolled: boolean }>`
     transition: all 0.3s ease;
     white-space: nowrap;
     text-shadow: ${props => 
-      props.isScrolled 
+      props.$isScrolled 
         ? 'none' 
         : '1px 1px 2px rgba(0, 0, 0, 0.3)'
     };
@@ -121,18 +121,18 @@ const NavLinks = styled.ul<{ isScrolled: boolean }>`
 
 const NavLink = styled.li``
 
-const MobileMenuButton = styled.button<{ isScrolled: boolean }>`
+const MobileMenuButton = styled.button<{ $isScrolled: boolean }>`
   display: none;
   background: none;
   color: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? theme.colors.primary 
       : theme.colors.text.light
   };
   font-size: ${theme.fontSizes.xl};
   padding: ${theme.spacing.xs};
   text-shadow: ${props => 
-    props.isScrolled 
+    props.$isScrolled 
       ? 'none' 
       : '1px 1px 2px rgba(0, 0, 0, 0.3)'
   };
@@ -143,7 +143,7 @@ const MobileMenuButton = styled.button<{ isScrolled: boolean }>`
   }
 `
 
-const MobileMenu = styled.div<{ isOpen: boolean }>`
+const MobileMenu = styled.div<{ $isOpen: boolean }>`
   position: absolute;
   top: 100%;
   left: 0;
@@ -153,9 +153,9 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
   padding: ${theme.spacing.md};
   
   /* Smooth animation */
-  transform: translateY(${props => props.isOpen ? '0' : '-100%'});
-  opacity: ${props => props.isOpen ? '1' : '0'};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  transform: translateY(${props => props.$isOpen ? '0' : '-100%'});
+  opacity: ${props => props.$isOpen ? '1' : '0'};
+  visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
   transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
   
   ul {
@@ -237,14 +237,14 @@ export function Header() {
   }
 
   return (
-    <HeaderContainer isScrolled={isScrolled}>
+    <HeaderContainer $isScrolled={isScrolled}>
       <Nav>
-        <Logo isScrolled={isScrolled} onClick={handleLogoClick}>
-          <LogoTitle isScrolled={isScrolled}>{content.header.title}</LogoTitle>
-          <LogoSubtitle isScrolled={isScrolled}>{content.header.subtitle}</LogoSubtitle>
+        <Logo $isScrolled={isScrolled} onClick={handleLogoClick}>
+          <LogoTitle $isScrolled={isScrolled}>{content.header.title}</LogoTitle>
+          <LogoSubtitle $isScrolled={isScrolled}>{content.header.subtitle}</LogoSubtitle>
         </Logo>
         
-        <NavLinks isScrolled={isScrolled}>
+        <NavLinks $isScrolled={isScrolled}>
           {content.navigation.map((item) => (
             <NavLink key={item.href}>
               <a 
@@ -264,12 +264,12 @@ export function Header() {
           ))}
         </NavLinks>
 
-        <MobileMenuButton isScrolled={isScrolled} onClick={handleMobileMenuToggle}>
+        <MobileMenuButton $isScrolled={isScrolled} onClick={handleMobileMenuToggle}>
           ☰
         </MobileMenuButton>
       </Nav>
 
-      <MobileMenu isOpen={isMobileMenuOpen}>
+      <MobileMenu $isOpen={isMobileMenuOpen}>
         <ul>
           {content.navigation.map((item) => (
             <NavLink key={item.href}>

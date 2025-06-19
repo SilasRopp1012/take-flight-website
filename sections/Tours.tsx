@@ -20,15 +20,15 @@ const ToursSection = styled.section`
   }
 `
 
-const BackgroundImage = styled.div<{ progress: number }>`
+const BackgroundImage = styled.div<{ $progress: number }>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 1;
-  opacity: ${props => 0.7 + (props.progress * 0.3)};
-  transform: scale(${props => 1 + (props.progress * 0.05)});
+  opacity: ${props => 0.7 + (props.$progress * 0.3)};
+  transform: scale(${props => 1 + (props.$progress * 0.05)});
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
@@ -54,11 +54,11 @@ const Container = styled.div`
   z-index: 3;
 `
 
-const SectionHeader = styled.div<{ progress: number }>`
+const SectionHeader = styled.div<{ $progress: number }>`
   text-align: right;
   margin-bottom: ${theme.spacing['2xl']};
-  opacity: ${props => Math.max(0, Math.min(1, props.progress * 1.5))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, props.progress * 1.5))) * 30}px);
+  opacity: ${props => Math.max(0, Math.min(1, props.$progress * 1.5))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, props.$progress * 1.5))) * 30}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   h2 {
@@ -80,7 +80,7 @@ const ToursGrid = styled.div`
   }
 `
 
-const TourItem = styled.div<{ progress: number; delay: number }>`
+const TourItem = styled.div<{ $progress: number; $delay: number }>`
   text-align: left;
   padding: ${theme.spacing.xl} ${theme.spacing.lg};
   background: rgba(255, 255, 255, 0.1);
@@ -88,19 +88,19 @@ const TourItem = styled.div<{ progress: number; delay: number }>`
   backdrop-filter: blur(3px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease, opacity 0.1s ease-out, transform 0.1s ease-out;
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - props.delay) * 2))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 2))) * 50}px);
+  opacity: ${props => Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 50}px);
 
   &:hover {
     background: rgba(255, 255, 255, 0.15);
-    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 2))) * 50 - 5}px);
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 50 - 5}px);
   }
   
   @media (max-width: ${theme.breakpoints.lg}) {
-    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 2))) * 30}px);
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 30}px);
     
     &:hover {
-      transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 2))) * 30 - 5}px);
+      transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 30 - 5}px);
     }
   }
 `
@@ -172,7 +172,7 @@ export function Tours() {
 
   return (
     <ToursSection id="tours" ref={sectionRef}>
-      <BackgroundImage progress={scrollProgress}>
+      <BackgroundImage $progress={scrollProgress}>
         <Image
           src={images.tours}
           alt="Beautiful birding landscape in New Mexico"
@@ -184,7 +184,7 @@ export function Tours() {
       <BackgroundOverlay />
       
       <Container>
-        <SectionHeader progress={scrollProgress}>
+        <SectionHeader $progress={scrollProgress}>
           <h2>{content.tours.title}</h2>
         </SectionHeader>
         
@@ -192,8 +192,8 @@ export function Tours() {
           {content.tours.offerings.map((offering, index) => (
             <TourItem 
               key={offering.id} 
-              progress={scrollProgress}
-              delay={0.1 + (index * 0.1)} // Stagger: 0.1, 0.2, 0.3
+              $progress={scrollProgress}
+              $delay={0.1 + (index * 0.1)} // Stagger: 0.1, 0.2, 0.3
             >
               <TourContent>
                 <h3>{offering.title}</h3>

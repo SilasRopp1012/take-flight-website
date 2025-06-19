@@ -25,36 +25,55 @@ const AboutGrid = styled.div`
   @media (max-width: ${theme.breakpoints.lg}) {
     grid-template-columns: 1fr;
     gap: ${theme.spacing.xl};
-    grid-template-areas: 
-      "title"
-      "image" 
-      "content";
   }
 `
 
-const AboutTitle = styled.h2<{ progress: number }>`
+// Mobile-only title component - shows first on mobile
+const MobileTitleContainer = styled.div`
+  display: none;
+  
+  @media (max-width: ${theme.breakpoints.lg}) {
+    display: block;
+    order: -1;
+    text-align: center;
+    margin-bottom: ${theme.spacing.xl};
+  }
+`
+
+const MobileTitle = styled.h2.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - 0.1) * 2)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 2))) * 50}px)`,
+  },
+}))<{ $progress: number }>`
   color: ${theme.colors.primary};
   font-size: ${theme.fontSizes['5xl']};
-  margin-bottom: ${theme.spacing.lg};
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.1) * 2))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 2))) * 50}px);
+  font-family: ${theme.fonts.heading};
+  margin: 0;
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
-
-  @media (max-width: ${theme.breakpoints.lg}) {
-    grid-area: title;
-    margin-bottom: 0;
-    text-align: center;
-  }
 `
 
-const AboutContent = styled.div<{ progress: number }>`
-  opacity: ${props => Math.max(0, Math.min(1, props.progress))};
-  transform: translateX(${props => (1 - props.progress) * -50}px);
+const AboutContent = styled.div.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, props.$progress)),
+    transform: `translateX(${(1 - props.$progress) * -50}px)`,
+  },
+}))<{ $progress: number }>`
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    grid-area: content;
-    transform: translateY(${props => (1 - props.progress) * 50}px);
+    transform: translateY(${props => (1 - props.$progress) * 50}px) !important;
+    order: 2;
+  }
+
+  h2 {
+    color: ${theme.colors.primary};
+    font-size: ${theme.fontSizes['5xl']};
+    margin-bottom: ${theme.spacing.lg};
+    
+    @media (max-width: ${theme.breakpoints.lg}) {
+      display: none;
+    }
   }
 
   p {
@@ -63,28 +82,41 @@ const AboutContent = styled.div<{ progress: number }>`
   }
 `
 
-const AboutParagraph = styled.p<{ progress: number; delay: number }>`
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - props.delay) * 3))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 3))) * 50}px);
+const AboutTitle = styled.h2.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - 0.1) * 2)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 2))) * 50}px)`,
+  },
+}))<{ $progress: number }>`
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
-  margin-bottom: ${theme.spacing.md};
-  color: ${theme.colors.text.secondary};
 `
 
-const AboutImageContainer = styled.div<{ progress: number }>`
+const AboutParagraph = styled.p.attrs<{ $progress: number; $delay: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - props.$delay) * 3)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 3))) * 50}px)`,
+  },
+}))<{ $progress: number; $delay: number }>`
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+`
+
+const AboutImageContainer = styled.div.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, props.$progress * 1.2)),
+    transform: `translateX(${(1 - props.$progress) * 50}px)`,
+  },
+}))<{ $progress: number }>`
   position: relative;
   height: 500px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  opacity: ${props => Math.max(0, Math.min(1, props.progress * 1.2))};
-  transform: translateX(${props => (1 - props.progress) * 50}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    grid-area: image;
     height: 400px;
-    transform: translateY(${props => (1 - props.progress) * 50}px);
+    transform: translateY(${props => (1 - props.$progress) * 50}px) !important;
+    order: 1;
   }
 `
 
@@ -99,34 +131,22 @@ export function About() {
       const rect = sectionRef.current.getBoundingClientRect()
       const windowHeight = window.innerHeight
       
-      // Calculate progress based on how much of the section is visible
-      const sectionTop = rect.top
-      const sectionHeight = rect.height
-      
-      // Start animation when section enters viewport, complete when it's centered
-      const startPoint = windowHeight * 0.8 // Start when 80% down the viewport
-      const endPoint = windowHeight * 0.2   // Complete when 20% down the viewport
+      const startPoint = windowHeight * 0.8
+      const endPoint = windowHeight * 0.2
       
       let progress = 0
       
-      if (sectionTop <= startPoint && sectionTop >= endPoint) {
-        // Calculate progress between 0 and 1
-        progress = (startPoint - sectionTop) / (startPoint - endPoint)
-      } else if (sectionTop < endPoint) {
-        // Fully visible
+      if (rect.top <= startPoint && rect.top >= endPoint) {
+        progress = (startPoint - rect.top) / (startPoint - endPoint)
+      } else if (rect.top < endPoint) {
         progress = 1
       }
       
-      // Clamp progress between 0 and 1
       progress = Math.max(0, Math.min(1, progress))
-      
       setScrollProgress(progress)
     }
 
-    // Initial calculation
     handleScroll()
-    
-    // Add scroll listener with passive flag for better performance
     window.addEventListener('scroll', handleScroll, { passive: true })
     
     return () => {
@@ -138,9 +158,23 @@ export function About() {
     <AboutSection id="about" ref={sectionRef}>
       <Container>
         <AboutGrid>
-          <AboutTitle progress={scrollProgress}>{content.about.title}</AboutTitle>
+          {/* Mobile-only title - shows first on mobile */}
+          <MobileTitleContainer>
+            <MobileTitle $progress={scrollProgress}>{content.about.title}</MobileTitle>
+          </MobileTitleContainer>
           
-          <AboutImageContainer progress={scrollProgress}>
+          {/* Desktop: content with title, Mobile: content without title (shows after image) */}
+          <AboutContent $progress={scrollProgress}>
+            <AboutTitle $progress={scrollProgress}>{content.about.title}</AboutTitle>
+            {content.about.paragraphs.map((paragraph, index) => (
+              <AboutParagraph key={index} $progress={scrollProgress} $delay={0.1 + (index * 0.1)}>
+                {paragraph}
+              </AboutParagraph>
+            ))}
+          </AboutContent>
+          
+          {/* Image - shows second on mobile */}
+          <AboutImageContainer $progress={scrollProgress}>
             <Image
               src={images.about}
               alt="A photo of Chris with binoculars in the field"
@@ -152,14 +186,6 @@ export function About() {
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </AboutImageContainer>
-          
-          <AboutContent progress={scrollProgress}>
-            {content.about.paragraphs.map((paragraph, index) => (
-              <AboutParagraph key={index} progress={scrollProgress} delay={0.1 + (index * 0.1)}>
-                {paragraph}
-              </AboutParagraph>
-            ))}
-          </AboutContent>
         </AboutGrid>
       </Container>
     </AboutSection>

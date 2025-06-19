@@ -25,50 +25,65 @@ const ContactGrid = styled.div`
   }
 `
 
-const ContactInfo = styled.div<{ progress: number }>`
+const ContactInfo = styled.div.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, props.$progress * 1.2)),
+    transform: `translateX(${(1 - props.$progress) * -50}px)`,
+  },
+}))<{ $progress: number }>`
   display: flex;
   flex-direction: column;
   height: 100%;
-  opacity: ${props => Math.max(0, Math.min(1, props.progress * 1.2))};
-  transform: translateX(${props => (1 - props.progress) * -50}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    transform: translateY(${props => (1 - props.progress) * 50}px);
+    transform: translateY(${props => (1 - props.$progress) * 50}px) !important;
   }
 `
 
-const ContactTitle = styled.h2<{ progress: number }>`
+const ContactTitle = styled.h2.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - 0.1) * 2)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 2))) * 30}px)`,
+  },
+}))<{ $progress: number }>`
   color: ${theme.colors.primary};
   font-size: ${theme.fontSizes['5xl']};
   text-align: left;
   margin-bottom: ${theme.spacing.lg};
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.1) * 2))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 2))) * 30}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
-const ContactDescription = styled.p<{ progress: number }>`
+const ContactDescription = styled.p.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - 0.2) * 2)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.2) * 2))) * 30}px)`,
+  },
+}))<{ $progress: number }>`
   color: ${theme.colors.text.secondary};
   margin-bottom: ${theme.spacing.lg};
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.2) * 2))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.2) * 2))) * 30}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
-const ContactDetails = styled.div<{ progress: number }>`
+const ContactDetails = styled.div.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - 0.3) * 2)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.3) * 2))) * 30}px)`,
+  },
+}))<{ $progress: number }>`
   margin-top: auto;
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.3) * 2))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.3) * 2))) * 30}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
-const ContactItem = styled.div<{ progress: number; delay: number }>`
+const ContactItem = styled.div.attrs<{ $progress: number; $delay: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - props.$delay) * 3)),
+    transform: `translateX(${(1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 3))) * -20}px)`,
+  },
+}))<{ $progress: number; $delay: number }>`
   display: flex;
   align-items: center;
   margin-bottom: ${theme.spacing.md};
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - props.delay) * 3))};
-  transform: translateX(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 3))) * -20}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
   
   span {
@@ -88,24 +103,30 @@ const ContactItem = styled.div<{ progress: number; delay: number }>`
   }
 `
 
-const ContactForm = styled.form<{ progress: number }>`
+const ContactForm = styled.form.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - 0.1) * 1.5)),
+    transform: `translateX(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 1.5))) * 50}px)`,
+  },
+}))<{ $progress: number }>`
   background-color: ${theme.colors.background.primary};
   padding: ${theme.spacing.lg};
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.1) * 1.5))};
-  transform: translateX(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 1.5))) * 50}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 1.5))) * 50}px);
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 1.5))) * 50}px) !important;
   }
 `
 
-const FormGroup = styled.div<{ progress: number; delay: number }>`
+const FormGroup = styled.div.attrs<{ $progress: number; $delay: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - props.$delay) * 3)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 3))) * 20}px)`,
+  },
+}))<{ $progress: number; $delay: number }>`
   margin-bottom: ${theme.spacing.sm};
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - props.delay) * 3))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 3))) * 20}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
@@ -147,7 +168,12 @@ const TextArea = styled.textarea`
   }
 `
 
-const SubmitButton = styled.button<{ progress: number }>`
+const SubmitButton = styled.button.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, (props.$progress - 0.5) * 3)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.5) * 3))) * 20}px)`,
+  },
+}))<{ $progress: number }>`
   background-color: #2F6FA3;
   color: ${theme.colors.text.light};
   padding: ${theme.spacing.sm} ${theme.spacing.xl};
@@ -156,18 +182,16 @@ const SubmitButton = styled.button<{ progress: number }>`
   font-weight: 600;
   width: 100%;
   transition: all 0.3s ease;
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.5) * 3))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.5) * 3))) * 20}px);
 
   &:hover {
     background-color: ${theme.colors.accent};
-    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.5) * 3))) * 20 - 1}px);
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - 0.5) * 3))) * 20 - 1}px) !important;
   }
 
   &:disabled {
     background-color: ${theme.colors.text.secondary};
     cursor: not-allowed;
-    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.5) * 3))) * 20}px);
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - 0.5) * 3))) * 20}px) !important;
   }
 `
 
@@ -287,35 +311,35 @@ export function Contact() {
     <ContactSection id="contact" ref={sectionRef}>
       <Container>
         <ContactGrid>
-          <ContactInfo progress={scrollProgress}>
+          <ContactInfo $progress={scrollProgress}>
             <div>
-              <ContactTitle progress={scrollProgress}>{content.contact.title}</ContactTitle>
-              <ContactDescription progress={scrollProgress}>{content.contact.description}</ContactDescription>
+              <ContactTitle $progress={scrollProgress}>{content.contact.title}</ContactTitle>
+              <ContactDescription $progress={scrollProgress}>{content.contact.description}</ContactDescription>
             </div>
             
-            <ContactDetails progress={scrollProgress}>
-              <ContactItem progress={scrollProgress} delay={0.4}>
+            <ContactDetails $progress={scrollProgress}>
+              <ContactItem $progress={scrollProgress} $delay={0.4}>
                 <a href={`mailto:${content.contact.email}`}>{content.contact.email}</a>
               </ContactItem>
               
-              <ContactItem progress={scrollProgress} delay={0.5}>
+              <ContactItem $progress={scrollProgress} $delay={0.5}>
                 <a href={`tel:+1${content.contact.phone.replace(/\D/g, '')}`}>{content.contact.phone}</a>
               </ContactItem>
               
-              <ContactItem progress={scrollProgress} delay={0.6}>
+              <ContactItem $progress={scrollProgress} $delay={0.6}>
                 <span>{content.contact.location}</span>
               </ContactItem>
             </ContactDetails>
           </ContactInfo>
 
-          <ContactForm onSubmit={handleSubmit} progress={scrollProgress}>
+          <ContactForm onSubmit={handleSubmit} $progress={scrollProgress}>
             {isSubmitted && (
               <SuccessMessage>
                 {content.contact.successMessage}
               </SuccessMessage>
             )}
             
-            <FormGroup progress={scrollProgress} delay={0.2}>
+            <FormGroup $progress={scrollProgress} $delay={0.2}>
               <Label htmlFor="name">Name *</Label>
               <Input
                 type="text"
@@ -323,11 +347,12 @@ export function Contact() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                autoComplete="name"
                 required
               />
             </FormGroup>
 
-            <FormGroup progress={scrollProgress} delay={0.25}>
+            <FormGroup $progress={scrollProgress} $delay={0.25}>
               <Label htmlFor="email">Email *</Label>
               <Input
                 type="email"
@@ -335,11 +360,12 @@ export function Contact() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                autoComplete="email"
                 required
               />
             </FormGroup>
 
-            <FormGroup progress={scrollProgress} delay={0.3}>
+            <FormGroup $progress={scrollProgress} $delay={0.3}>
               <Label htmlFor="phone">Phone</Label>
               <Input
                 type="tel"
@@ -347,10 +373,11 @@ export function Contact() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                autoComplete="tel"
               />
             </FormGroup>
 
-            <FormGroup progress={scrollProgress} delay={0.35}>
+            <FormGroup $progress={scrollProgress} $delay={0.35}>
               <Label htmlFor="message">Message</Label>
               <TextArea
                 id="message"
@@ -358,10 +385,11 @@ export function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Tell me about your birding experience and what you're hoping to see..."
+                autoComplete="off"
               />
             </FormGroup>
 
-            <SubmitButton type="submit" disabled={isSubmitting} progress={scrollProgress}>
+            <SubmitButton type="submit" disabled={isSubmitting} $progress={scrollProgress}>
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </SubmitButton>
           </ContactForm>
