@@ -83,7 +83,7 @@ const TestimonialItem = styled.div`
   flex: 0 0 auto;
   width: 350px;
   padding: ${theme.spacing.lg};
-  border-left: 2px solid ${theme.colors.accent};
+  border-left: 2px solid ${theme.colors.primary};
   padding-left: ${theme.spacing.lg};
   
   @media (max-width: ${theme.breakpoints.md}) {
