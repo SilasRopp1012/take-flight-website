@@ -56,7 +56,7 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   },
 }))<{ $progress: number; $delay: number }>`
   position: relative;
-  height: 450px;
+  height: 550px;
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
@@ -69,7 +69,7 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   }
   
   @media (max-width: ${theme.breakpoints.lg}) {
-    height: 400px;
+    height: 500px;
     
     &:hover {
       transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 30 - 5}px) !important;
@@ -77,7 +77,7 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    height: 350px;
+    height: 450px;
   }
 `
 
@@ -123,25 +123,25 @@ const CardContent = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: ${theme.spacing.xl};
+  justify-content: space-between;
+  padding: ${theme.spacing['2xl']};
   color: ${theme.colors.text.light};
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: ${theme.spacing.lg};
+    padding: ${theme.spacing.xl};
   }
 `
 
 const CardTitle = styled.h3`
   font-size: ${theme.fontSizes['2xl']};
-  margin-bottom: ${theme.spacing.md};
+  margin-bottom: ${theme.spacing.lg};
   font-weight: 600;
   line-height: 1.2;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: ${theme.fontSizes.xl};
-    margin-bottom: ${theme.spacing.sm};
+    margin-bottom: ${theme.spacing.md};
   }
 `
 
@@ -171,6 +171,10 @@ const TourFeatures = styled.ul`
       color: ${theme.colors.text.light};
       font-weight: bold;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 `
@@ -322,7 +326,7 @@ export function Tours() {
                   fill
                   style={{ 
                     objectFit: 'cover',
-                    transform: index === 0 ? 'scale(1.3) translateX(10%)' : 'scale(1)'
+                    transform: index === 0 ? 'scale(1.3) translateX(10%) translateY(-5%)' : 'scale(1)'
                   }}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
