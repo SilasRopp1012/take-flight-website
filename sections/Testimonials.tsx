@@ -6,6 +6,14 @@ import { content } from '@/config/content'
 const TestimonialsSection = styled.section`
   padding: 12rem 0;
   background-color: ${theme.colors.background.primary};
+  
+  @media (max-width: ${theme.breakpoints.md}) {
+    padding: 6rem 0;
+  }
+  
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 4rem 0;
+  }
 `
 
 const Container = styled.div`

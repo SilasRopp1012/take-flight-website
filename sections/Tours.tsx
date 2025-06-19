@@ -10,6 +10,14 @@ const ToursSection = styled.section`
   padding: 12rem 0;
   background-color: ${theme.colors.background.primary};
   overflow: hidden;
+  
+  @media (max-width: ${theme.breakpoints.md}) {
+    padding: 6rem 0;
+  }
+  
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 4rem 0;
+  }
 `
 
 const BackgroundImage = styled.div<{ progress: number }>`

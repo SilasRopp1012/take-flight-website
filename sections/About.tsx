@@ -25,6 +25,25 @@ const AboutGrid = styled.div`
   @media (max-width: ${theme.breakpoints.lg}) {
     grid-template-columns: 1fr;
     gap: ${theme.spacing.xl};
+    grid-template-areas: 
+      "title"
+      "image" 
+      "content";
+  }
+`
+
+const AboutTitle = styled.h2<{ progress: number }>`
+  color: ${theme.colors.primary};
+  font-size: ${theme.fontSizes['5xl']};
+  margin-bottom: ${theme.spacing.lg};
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.1) * 2))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 2))) * 50}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+
+  @media (max-width: ${theme.breakpoints.lg}) {
+    grid-area: title;
+    margin-bottom: 0;
+    text-align: center;
   }
 `
 
@@ -34,13 +53,8 @@ const AboutContent = styled.div<{ progress: number }>`
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   @media (max-width: ${theme.breakpoints.lg}) {
+    grid-area: content;
     transform: translateY(${props => (1 - props.progress) * 50}px);
-  }
-
-  h2 {
-    color: ${theme.colors.primary};
-    font-size: ${theme.fontSizes['5xl']};
-    margin-bottom: ${theme.spacing.lg};
   }
 
   p {
@@ -49,16 +63,12 @@ const AboutContent = styled.div<{ progress: number }>`
   }
 `
 
-const AboutTitle = styled.h2<{ progress: number }>`
-  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.1) * 2))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 2))) * 50}px);
-  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
-`
-
 const AboutParagraph = styled.p<{ progress: number; delay: number }>`
   opacity: ${props => Math.max(0, Math.min(1, (props.progress - props.delay) * 3))};
   transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 3))) * 50}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+  margin-bottom: ${theme.spacing.md};
+  color: ${theme.colors.text.secondary};
 `
 
 const AboutImageContainer = styled.div<{ progress: number }>`
@@ -72,7 +82,7 @@ const AboutImageContainer = styled.div<{ progress: number }>`
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    order: -1;
+    grid-area: image;
     height: 400px;
     transform: translateY(${props => (1 - props.progress) * 50}px);
   }
@@ -128,14 +138,8 @@ export function About() {
     <AboutSection id="about" ref={sectionRef}>
       <Container>
         <AboutGrid>
-          <AboutContent progress={scrollProgress}>
-            <AboutTitle progress={scrollProgress}>{content.about.title}</AboutTitle>
-            {content.about.paragraphs.map((paragraph, index) => (
-              <AboutParagraph key={index} progress={scrollProgress} delay={0.1 + (index * 0.1)}>
-                {paragraph}
-              </AboutParagraph>
-            ))}
-          </AboutContent>
+          <AboutTitle progress={scrollProgress}>{content.about.title}</AboutTitle>
+          
           <AboutImageContainer progress={scrollProgress}>
             <Image
               src={images.about}
@@ -148,6 +152,14 @@ export function About() {
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </AboutImageContainer>
+          
+          <AboutContent progress={scrollProgress}>
+            {content.about.paragraphs.map((paragraph, index) => (
+              <AboutParagraph key={index} progress={scrollProgress} delay={0.1 + (index * 0.1)}>
+                {paragraph}
+              </AboutParagraph>
+            ))}
+          </AboutContent>
         </AboutGrid>
       </Container>
     </AboutSection>

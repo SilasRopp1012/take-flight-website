@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { theme } from '@/config/theme'
 import { content } from '@/config/content'
@@ -25,32 +25,51 @@ const ContactGrid = styled.div`
   }
 `
 
-const ContactInfo = styled.div`
+const ContactInfo = styled.div<{ progress: number }>`
   display: flex;
   flex-direction: column;
   height: 100%;
+  opacity: ${props => Math.max(0, Math.min(1, props.progress * 1.2))};
+  transform: translateX(${props => (1 - props.progress) * -50}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 
-  h2 {
-    color: ${theme.colors.primary};
-    font-size: ${theme.fontSizes['5xl']};
-    text-align: left;
-    margin-bottom: ${theme.spacing.lg};
-  }
-
-  p {
-    color: ${theme.colors.text.secondary};
-    margin-bottom: ${theme.spacing.lg};
+  @media (max-width: ${theme.breakpoints.lg}) {
+    transform: translateY(${props => (1 - props.progress) * 50}px);
   }
 `
 
-const ContactDetails = styled.div`
+const ContactTitle = styled.h2<{ progress: number }>`
+  color: ${theme.colors.primary};
+  font-size: ${theme.fontSizes['5xl']};
+  text-align: left;
+  margin-bottom: ${theme.spacing.lg};
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.1) * 2))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 2))) * 30}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+`
+
+const ContactDescription = styled.p<{ progress: number }>`
+  color: ${theme.colors.text.secondary};
+  margin-bottom: ${theme.spacing.lg};
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.2) * 2))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.2) * 2))) * 30}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+`
+
+const ContactDetails = styled.div<{ progress: number }>`
   margin-top: auto;
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.3) * 2))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.3) * 2))) * 30}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
-const ContactItem = styled.div`
+const ContactItem = styled.div<{ progress: number; delay: number }>`
   display: flex;
   align-items: center;
   margin-bottom: ${theme.spacing.md};
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - props.delay) * 3))};
+  transform: translateX(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 3))) * -20}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
   
   span {
     margin-left: ${theme.spacing.sm};
@@ -69,15 +88,25 @@ const ContactItem = styled.div`
   }
 `
 
-const ContactForm = styled.form`
+const ContactForm = styled.form<{ progress: number }>`
   background-color: ${theme.colors.background.primary};
   padding: ${theme.spacing.lg};
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.1) * 1.5))};
+  transform: translateX(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 1.5))) * 50}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+
+  @media (max-width: ${theme.breakpoints.lg}) {
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.1) * 1.5))) * 50}px);
+  }
 `
 
-const FormGroup = styled.div`
+const FormGroup = styled.div<{ progress: number; delay: number }>`
   margin-bottom: ${theme.spacing.sm};
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - props.delay) * 3))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - props.delay) * 3))) * 20}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
 const Label = styled.label`
@@ -118,7 +147,7 @@ const TextArea = styled.textarea`
   }
 `
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ progress: number }>`
   background-color: #2F6FA3;
   color: ${theme.colors.text.light};
   padding: ${theme.spacing.sm} ${theme.spacing.xl};
@@ -127,16 +156,18 @@ const SubmitButton = styled.button`
   font-weight: 600;
   width: 100%;
   transition: all 0.3s ease;
+  opacity: ${props => Math.max(0, Math.min(1, (props.progress - 0.5) * 3))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.5) * 3))) * 20}px);
 
   &:hover {
     background-color: ${theme.colors.accent};
-    transform: translateY(-1px);
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.5) * 3))) * 20 - 1}px);
   }
 
   &:disabled {
     background-color: ${theme.colors.text.secondary};
     cursor: not-allowed;
-    transform: none;
+    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.progress - 0.5) * 3))) * 20}px);
   }
 `
 
@@ -159,6 +190,49 @@ export function Contact() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return
+
+      const rect = sectionRef.current.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      
+      // Calculate progress based on how much of the section is visible
+      const sectionTop = rect.top
+      
+      // Start animation when section enters viewport, complete when it's centered
+      const startPoint = windowHeight * 0.8 // Start when 80% down the viewport
+      const endPoint = windowHeight * 0.2   // Complete when 20% down the viewport
+      
+      let progress = 0
+      
+      if (sectionTop <= startPoint && sectionTop >= endPoint) {
+        // Calculate progress between 0 and 1
+        progress = (startPoint - sectionTop) / (startPoint - endPoint)
+      } else if (sectionTop < endPoint) {
+        // Fully visible
+        progress = 1
+      }
+      
+      // Clamp progress between 0 and 1
+      progress = Math.max(0, Math.min(1, progress))
+      
+      setScrollProgress(progress)
+    }
+
+    // Initial calculation
+    handleScroll()
+    
+    // Add scroll listener with passive flag for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -210,38 +284,38 @@ export function Contact() {
   }
 
   return (
-    <ContactSection id="contact">
+    <ContactSection id="contact" ref={sectionRef}>
       <Container>
         <ContactGrid>
-          <ContactInfo>
+          <ContactInfo progress={scrollProgress}>
             <div>
-              <h2>{content.contact.title}</h2>
-              <p>{content.contact.description}</p>
+              <ContactTitle progress={scrollProgress}>{content.contact.title}</ContactTitle>
+              <ContactDescription progress={scrollProgress}>{content.contact.description}</ContactDescription>
             </div>
             
-            <ContactDetails>
-              <ContactItem>
+            <ContactDetails progress={scrollProgress}>
+              <ContactItem progress={scrollProgress} delay={0.4}>
                 <a href={`mailto:${content.contact.email}`}>{content.contact.email}</a>
               </ContactItem>
               
-              <ContactItem>
+              <ContactItem progress={scrollProgress} delay={0.5}>
                 <a href={`tel:+1${content.contact.phone.replace(/\D/g, '')}`}>{content.contact.phone}</a>
               </ContactItem>
               
-              <ContactItem>
+              <ContactItem progress={scrollProgress} delay={0.6}>
                 <span>{content.contact.location}</span>
               </ContactItem>
             </ContactDetails>
           </ContactInfo>
 
-          <ContactForm onSubmit={handleSubmit}>
+          <ContactForm onSubmit={handleSubmit} progress={scrollProgress}>
             {isSubmitted && (
               <SuccessMessage>
                 {content.contact.successMessage}
               </SuccessMessage>
             )}
             
-            <FormGroup>
+            <FormGroup progress={scrollProgress} delay={0.2}>
               <Label htmlFor="name">Name *</Label>
               <Input
                 type="text"
@@ -253,7 +327,7 @@ export function Contact() {
               />
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup progress={scrollProgress} delay={0.25}>
               <Label htmlFor="email">Email *</Label>
               <Input
                 type="email"
@@ -265,7 +339,7 @@ export function Contact() {
               />
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup progress={scrollProgress} delay={0.3}>
               <Label htmlFor="phone">Phone</Label>
               <Input
                 type="tel"
@@ -276,7 +350,7 @@ export function Contact() {
               />
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup progress={scrollProgress} delay={0.35}>
               <Label htmlFor="message">Message</Label>
               <TextArea
                 id="message"
@@ -287,7 +361,7 @@ export function Contact() {
               />
             </FormGroup>
 
-            <SubmitButton type="submit" disabled={isSubmitting}>
+            <SubmitButton type="submit" disabled={isSubmitting} progress={scrollProgress}>
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </SubmitButton>
           </ContactForm>

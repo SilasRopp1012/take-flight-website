@@ -78,12 +78,14 @@ const HeroContent = styled.div`
   position: relative;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    margin-bottom: 100px;
-    padding-bottom: ${theme.spacing.xl};
+    margin-bottom: 80px;
+    padding: 0 ${theme.spacing.lg} ${theme.spacing.xl} ${theme.spacing.lg};
+    text-align: center;
   }
   
   @media (max-width: ${theme.breakpoints.sm}) {
     margin-bottom: 100px;
+    padding: 0 ${theme.spacing.md} ${theme.spacing.lg} ${theme.spacing.md};
   }
 `
 
@@ -103,10 +105,13 @@ const HeroTitle = styled.h1`
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: ${theme.fontSizes['4xl']};
+    margin-bottom: ${theme.spacing.md};
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
   }
   
   @media (max-width: ${theme.breakpoints.sm}) {
     font-size: ${theme.fontSizes['3xl']};
+    line-height: 1.2;
   }
 `
 
@@ -124,11 +129,14 @@ const HeroSubtitle = styled.p`
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: ${theme.fontSizes.lg};
+    max-width: 100%;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
   }
   
   @media (max-width: ${theme.breakpoints.sm}) {
     font-size: ${theme.fontSizes.base};
-    max-width: 90%;
+    line-height: 1.5;
   }
 `
 
