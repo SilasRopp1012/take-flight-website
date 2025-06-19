@@ -95,9 +95,9 @@ const HeroTitle = styled.h1`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   line-height: 1.1;
   
-  /* Animation */
+  /* Animation - slower duration and delay */
   opacity: 0;
-  animation: ${fadeInUp} 0.8s ease-out 0.3s forwards;
+  animation: ${fadeInUp} 1.8s ease-out 0.6s forwards;
 
   @media (max-width: ${theme.breakpoints.lg}) {
     font-size: ${theme.fontSizes['5xl']};
@@ -123,9 +123,9 @@ const HeroSubtitle = styled.p`
   line-height: 1.4;
   max-width: 600px;
   
-  /* Animation */
+  /* Animation - much longer delay after title */
   opacity: 0;
-  animation: ${fadeInUp} 0.8s ease-out 0.6s forwards;
+  animation: ${fadeInUp} 1.2s ease-out 2.0s forwards;
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: ${theme.fontSizes.lg};
