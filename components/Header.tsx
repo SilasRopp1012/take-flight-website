@@ -193,6 +193,10 @@ export function Header() {
 
   const handleLogoClick = () => {
     setIsMobileMenuOpen(false)
+    
+    // Clear the hash from URL and return to base domain
+    window.history.pushState(null, '', window.location.pathname)
+    
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -221,6 +225,9 @@ export function Header() {
     
     // Special handling only for Tours section
     if (href === '#tours') {
+      // Update the URL hash
+      window.history.pushState(null, '', href)
+      
       const toursElement = document.getElementById('tours')
       if (toursElement) {
         const headerHeight = 80 // Fixed header height
