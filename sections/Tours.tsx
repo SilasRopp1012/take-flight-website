@@ -60,8 +60,9 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  will-change: transform, box-shadow;
 
   &:hover {
     transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 50 - 5}px) !important;
@@ -104,16 +105,22 @@ const CardOverlay = styled.div`
     rgba(0, 0, 0, 0.8) 100%
   );
   z-index: 2;
-  transition: background 0.8s ease-in-out;
+`
+
+const HoverOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  will-change: opacity;
 
   ${TourCard}:hover & {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.3) 30%,
-      rgba(0, 0, 0, 0.6) 70%,
-      rgba(0, 0, 0, 0.9) 100%
-    );
+    opacity: 1;
   }
 `
 
@@ -326,12 +333,13 @@ export function Tours() {
                   fill
                   style={{ 
                     objectFit: 'cover',
-                    transform: index === 0 ? 'scale(1.3) translateX(10%) translateY(-5%)' : 'scale(1)'
+                    transform: index === 0 ? 'scale(1.3) translateX(10%) translateY(5%)' : 'scale(1)'
                   }}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </CardBackground>
               <CardOverlay />
+              <HoverOverlay />
               
               <CardContent>
                 <CardTitle>{offering.title}</CardTitle>
