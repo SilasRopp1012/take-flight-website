@@ -297,13 +297,6 @@ export function Tours() {
     '/images/tours-birding-3.jpg'
   ]
 
-  // Define features for each tour type
-  const tourFeatures = [
-    ['One-on-one or small groups', 'Flexible scheduling', 'Customized to your interests', 'All skill levels welcome'],
-    ['Regularly scheduled tours', 'Meet fellow birders', 'Educational insights', 'Group learning experience'],
-    ['Hands-on field learning', 'Bird identification skills', 'Behavior observation', 'Habitat understanding']
-  ]
-
   const handleContactClick = () => {
     const contactSection = document.getElementById('contact')
     if (contactSection) {
@@ -344,7 +337,7 @@ export function Tours() {
               <CardContent>
                 <CardTitle>{offering.title}</CardTitle>
                 <TourFeatures>
-                  {tourFeatures[index].map((feature, featureIndex) => (
+                  {offering.features.map((feature: string, featureIndex: number) => (
                     <li key={featureIndex}>{feature}</li>
                   ))}
                 </TourFeatures>

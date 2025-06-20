@@ -38,16 +38,19 @@ export const content = {
         id: 'personalized',
         title: 'Personalized Birding Tours',
         description: 'Tailored one-on-one or small group experiences built around individual interests and schedules. Suitable for beginners or experienced birders. Each outing is made to match your goals and preferences.',
+        features: ['One-on-one or small groups', 'Flexible scheduling', 'Based on your interests', 'All skill levels welcome']
       },
       {
         id: 'group',
         title: 'Educational Group Adventures',
         description: 'Join my regularly scheduled group birding tours that combine the joy of birding with educational insights. Perfect for meeting fellow bird enthusiasts while learning about local species and habitats.',
+        features: ['Regularly scheduled tours', 'Meet fellow birders', 'Educational insights', 'Group learning experience']
       },
       {
         id: 'classes',
         title: 'Field-Based Birding Classes',
         description: 'Hands-on learning experiences that take you directly into the field to develop your birding skills. These occasional specialized classes focus on learning about bird identification, behavior, and habitat.',
+        features: ['Hands-on field learning', 'Bird identification skills', 'Behavior observation', 'Habitat understanding']
       },
     ]
   },
