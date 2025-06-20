@@ -207,6 +207,7 @@ const MobileMenu = styled.div<{ $isOpen: boolean; $isScrolled: boolean }>`
   transform: translateY(${props => props.$isOpen ? '0' : '-100%'});
   opacity: ${props => props.$isOpen ? '1' : '0'};
   visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
+  pointer-events: ${props => props.$isOpen ? 'auto' : 'none'};
   transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
   
   ul {
