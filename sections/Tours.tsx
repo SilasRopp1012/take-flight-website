@@ -333,8 +333,7 @@ export function Tours() {
                   fill
                   style={{ 
                     objectFit: 'cover',
-                    transform: index === 0 ? 'scale(1.3) translateX(10%) translateY(-10%)' : 
-                              index === 1 ? 'translateY(-5%)' : 'scale(1)'
+                    transform: index === 0 ? 'scale(1.3) translateX(10%) translateY(-10%)' : 'scale(1)'
                   }}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
