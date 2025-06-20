@@ -274,12 +274,38 @@ export function Header() {
       setIsScrolled(window.scrollY > transitionPoint)
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Add passive flag for better mobile performance
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
+  // Add this new useEffect to clean up any mobile menu issues
+  useEffect(() => {
+    // Clean up any potential event listener issues when menu state changes
+    return () => {
+      // Force remove any lingering event listeners
+      const existingListeners = document.querySelectorAll('[data-mobile-menu-listener]')
+      existingListeners.forEach(el => el.remove())
+    }
+  }, [isMobileMenuOpen])
+
   const handleMobileMenuToggle = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
+    // Prevent any default scrolling behavior
+    if (isMobileMenuOpen) {
+      // When closing menu, prevent any scroll restoration
+      const currentScroll = window.scrollY
+      setIsMobileMenuOpen(false)
+      
+      // Force maintain scroll position on mobile
+      setTimeout(() => {
+        window.scrollTo(0, currentScroll)
+      }, 0)
+    } else {
+      setIsMobileMenuOpen(true)
+    }
   }
 
   const handleNavClick = (href: string) => {
