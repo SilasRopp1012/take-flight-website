@@ -121,42 +121,93 @@ const NavLinks = styled.ul<{ $isScrolled: boolean }>`
 
 const NavLink = styled.li``
 
-const MobileMenuButton = styled.button<{ $isScrolled: boolean }>`
+const MobileMenuButton = styled.button<{ $isScrolled: boolean; $isOpen: boolean }>`
   display: none;
   background: none;
-  color: ${props => 
+  border: none;
+  cursor: pointer;
+  padding: ${theme.spacing.xs};
+  width: 40px;
+  height: 40px;
+  position: relative;
+  transition: all 0.3s ease;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`
+
+const HamburgerLine = styled.span<{ $isScrolled: boolean; $isOpen: boolean; $position: 'top' | 'middle' | 'bottom' }>`
+  width: 20px;
+  height: 2px;
+  background-color: ${props => 
     props.$isScrolled 
       ? theme.colors.primary 
       : theme.colors.text.light
   };
-  font-size: ${theme.fontSizes.xl};
-  padding: ${theme.spacing.xs};
-  text-shadow: ${props => 
+  display: block;
+  margin: 2px 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  filter: ${props => 
     props.$isScrolled 
       ? 'none' 
-      : '1px 1px 2px rgba(0, 0, 0, 0.3)'
+      : 'drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3))'
   };
-  transition: all 0.3s ease;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    display: block;
+  ${props => props.$position === 'top' && props.$isOpen && `
+    transform: translateY(6px) rotate(45deg);
+  `}
+
+  ${props => props.$position === 'middle' && props.$isOpen && `
+    opacity: 0;
+    transform: scaleX(0);
+  `}
+
+  ${props => props.$position === 'bottom' && props.$isOpen && `
+    transform: translateY(-6px) rotate(-45deg);
+  `}
+`
+
+const MobileMenuOverlay = styled.div<{ $isOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  z-index: 9998;
+  opacity: ${props => props.$isOpen ? '1' : '0'};
+  visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  
+  @media (min-width: ${theme.breakpoints.md}) {
+    display: none;
   }
 `
 
-const MobileMenu = styled.div<{ $isOpen: boolean }>`
+const MobileMenu = styled.div<{ $isOpen: boolean; $isScrolled: boolean }>`
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  background-color: ${theme.colors.background.primary};
-  border-top: 1px solid ${theme.colors.background.secondary};
+  background-color: ${props => 
+    props.$isScrolled 
+      ? theme.colors.background.primary 
+      : 'transparent'
+  };
+  border-top: none;
   padding: ${theme.spacing.md};
+  z-index: 9999;
   
   /* Smooth animation */
   transform: translateY(${props => props.$isOpen ? '0' : '-100%'});
   opacity: ${props => props.$isOpen ? '1' : '0'};
   visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
   
   ul {
     display: flex;
@@ -165,16 +216,27 @@ const MobileMenu = styled.div<{ $isOpen: boolean }>`
     list-style: none;
     margin: 0;
     padding: 0;
+    text-align: right;
   }
 
   a {
     font-weight: 500;
     font-size: ${theme.fontSizes.base};
-    color: ${theme.colors.text.primary};
+    color: ${props => 
+      props.$isScrolled 
+        ? theme.colors.text.primary 
+        : theme.colors.text.light
+    };
     padding: ${theme.spacing.xs} ${theme.spacing.sm};
     border-radius: 20px;
     transition: all 0.3s ease;
     white-space: nowrap;
+    text-align: right;
+    text-shadow: ${props => 
+      props.$isScrolled 
+        ? 'none' 
+        : '1px 1px 2px rgba(0, 0, 0, 0.3)'
+    };
 
     &:hover {
       color: ${theme.colors.primary};
@@ -243,6 +305,28 @@ export function Header() {
     // All other navigation uses default browser behavior
   }
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!isMobileMenuOpen) return
+      
+      const target = event.target as HTMLElement
+      const header = document.querySelector('header')
+      
+      // Close menu if click is outside the header
+      if (header && !header.contains(target)) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [isMobileMenuOpen])
+
   return (
     <HeaderContainer $isScrolled={isScrolled}>
       <Nav>
@@ -271,12 +355,14 @@ export function Header() {
           ))}
         </NavLinks>
 
-        <MobileMenuButton $isScrolled={isScrolled} onClick={handleMobileMenuToggle}>
-          ☰
+        <MobileMenuButton $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} onClick={handleMobileMenuToggle}>
+          <HamburgerLine $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} $position="top" />
+          <HamburgerLine $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} $position="middle" />
+          <HamburgerLine $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} $position="bottom" />
         </MobileMenuButton>
       </Nav>
 
-      <MobileMenu $isOpen={isMobileMenuOpen}>
+      <MobileMenu $isOpen={isMobileMenuOpen} $isScrolled={isScrolled}>
         <ul>
           {content.navigation.map((item) => (
             <NavLink key={item.href}>
