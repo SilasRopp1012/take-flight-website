@@ -331,7 +331,7 @@ export function Header() {
   return (
     <HeaderContainer $isScrolled={isScrolled}>
       <Nav>
-        <Logo $isScrolled={isScrolled} onClick={handleLogoClick}>
+        <Logo $isScrolled={isScrolled} href="/" onClick={handleLogoClick}>
           <LogoTitle $isScrolled={isScrolled}>{content.header.title}</LogoTitle>
           <LogoSubtitle $isScrolled={isScrolled}>{content.header.subtitle}</LogoSubtitle>
         </Logo>
