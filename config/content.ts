@@ -2,7 +2,7 @@ export const content = {
   // Navigation
   navigation: [
     { href: '#about', label: 'About' },
-    { href: '#tours', label: 'Tours' },
+    { href: '#tours', label: 'Services' },
     { href: '#testimonials', label: 'Testimonials' },
     { href: '#contact', label: 'Contact' },
   ],
@@ -23,16 +23,17 @@ export const content = {
   about: {
     title: "About Me",
     paragraphs: [
-      "Hi! I'm Chris, and birding has been a passion of mine for over 50 years. I grew up in Washington state where I learned to \"bird by ear\" at the age of 12, a skill that I have been honing ever since.",
-      "I studied ornithology intensively during my undergraduate years and worked as a field ornithologist throughout my 20s. I later earned a master's degree in Forest Ecology and spent many years working as a Vegetation Ecologist with the Washington Natural Heritage Program, where I focused on conservation and ecological research.",
-      "Since moving to the Southwest in 2007, I have been extensively exploring northern New Mexico and its incredible birdlife. Today, I bring together decades of experience in bird behavior, habitat, vegetation, and ecosystems to offer guided trips that are as informative as they are immersive. I also regularly volunteer leading bird walks at the Randall Davey Audubon Center.",
+      "Hi! I'm Chris, and birding has been a passion of mine for over 50 years. I grew up in Washington state where I learned to \"bird by ear\" at the age of 12, a skill that I have been honing ever since. I love to teach people birding by ear and I can help you learn that skill, as well as a plethora of other birding knowledge and skills.",
+      "I studied ornithology intensively during my undergraduate years and worked as a field ornithologist throughout my 20s. I later earned a master's degree in Forest Ecology and spent many years working as a Vegetation Ecologist with the Washington Natural Heritage Program, where I focused on conservation and ecological research. My birding adventures often incorporate education about the habitats that we are birding in and how the birds use them, in a way that few guides can do because of my unique background.",
+      "Since moving to the Southwest in 2007, I have been extensively exploring northern and central New Mexico and its incredible birdlife. Today, I bring together decades of experience in bird identification, bird behavior, habitat use, vegetation, and ecosystems to offer guided trips that are as informative as they are immersive. I know all the hotspots, nooks and crannies of birding near Santa Fe in a way that very few others do, and that on-the-ground experience translates into better birding experiences for you. I also regularly volunteer leading bird walks at the Randall Davey Audubon Center and do volunteer bird surveys at the Leonora Curtin Wetland Preserve.",
+      "I also enjoy getting to know the people I guide and teach, and I am easy to get along with. I take an interest in you and your birding life, meeting you where you are in your learning process and your interests. The community of local birders who have become regulars on my scheduled local adventures and who've taken my field classes is something I cherish.",
       "Most of my tours are within a day's drive of Santa Fe, though I occasionally lead overnight trips to special places by request, including Bosque del Apache and the Bitter Lake/Roswell area."
     ]
   },
 
   // Tours Section
   tours: {
-    title: "Tour Offerings",
+    title: "Services",
     offerings: [
       {
         id: 'personalized',
@@ -44,7 +45,7 @@ export const content = {
         id: 'group',
         title: 'Educational Group Adventures',
         description: 'Join my regularly scheduled group birding tours that combine the joy of birding with educational insights. Perfect for meeting fellow bird enthusiasts while learning about local species and habitats.',
-        features: ['Regularly scheduled tours', 'Meet fellow birders', 'Educational insights', 'Group learning experience']
+        features: ['Regularly scheduled tours', 'Meet fellow birders', 'Educational insights', 'All skill levels welcome']
       },
       {
         id: 'classes',
@@ -110,8 +111,8 @@ export const content = {
   // Contact Section
   contact: {
     title: "Get In Touch",
-    description: "Ready to embark on your birding adventure? Contact me to book a tour, ask questions, or learn more about upcoming group events.",
-    email: "chris.chappell4@gmail.com",
+    description: "Ready to embark on your birding adventure? Contact me to book a tour, ask questions,  learn more about upcoming group events, or sign up for my email list for educational group adventures and classes.",
+    email: "Chris Chappell",
     phone: "(505)-310-3205",
     location: "Santa Fe, NM",
     successMessage: "Thank you! I'll get back to you when I can."

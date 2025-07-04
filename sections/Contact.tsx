@@ -1,17 +1,48 @@
 import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
+import Image from 'next/image'
 import { theme } from '@/config/theme'
 import { content } from '@/config/content'
+import { images } from '@/config/images'
 
 const ContactSection = styled.section`
+  position: relative;
   padding: ${theme.spacing['3xl']} 0;
-  background-color: ${theme.colors.background.secondary};
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  color: ${theme.colors.text.light};
+  overflow: hidden;
+`
+
+const BackgroundImage = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -2;
+`
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: -1;
 `
 
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 ${theme.spacing.md};
+  width: 100%;
 `
 
 const ContactGrid = styled.div`
@@ -47,7 +78,7 @@ const ContactTitle = styled.h2.attrs<{ $progress: number }>(props => ({
     transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 2))) * 30}px)`,
   },
 }))<{ $progress: number }>`
-  color: ${theme.colors.primary};
+  color: ${theme.colors.text.light};
   font-size: ${theme.fontSizes['5xl']};
   text-align: left;
   margin-bottom: ${theme.spacing.lg};
@@ -60,7 +91,7 @@ const ContactDescription = styled.p.attrs<{ $progress: number }>(props => ({
     transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.2) * 2))) * 30}px)`,
   },
 }))<{ $progress: number }>`
-  color: ${theme.colors.text.secondary};
+  color: ${theme.colors.text.light};
   margin-bottom: ${theme.spacing.lg};
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
@@ -86,14 +117,12 @@ const ContactItem = styled.div.attrs<{ $progress: number; $delay: number }>(prop
   margin-bottom: ${theme.spacing.md};
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
   
-  span {
+  span, a {
     margin-left: ${theme.spacing.sm};
-    color: ${theme.colors.text.primary};
+    color: ${theme.colors.text.light};
   }
 
   a {
-    margin-left: ${theme.spacing.sm};
-    color: ${theme.colors.text.primary};
     text-decoration: none;
     transition: color 0.3s ease;
 
@@ -109,11 +138,12 @@ const ContactForm = styled.form.attrs<{ $progress: number }>(props => ({
     transform: `translateX(${(1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 1.5))) * 50}px)`,
   },
 }))<{ $progress: number }>`
-  background-color: ${theme.colors.background.primary};
+  background-color: rgba(255, 255, 255, 0.1);
   padding: ${theme.spacing.lg};
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+  backdrop-filter: blur(5px);
 
   @media (max-width: ${theme.breakpoints.lg}) {
     transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - 0.1) * 1.5))) * 50}px) !important;
@@ -130,11 +160,16 @@ const FormGroup = styled.div.attrs<{ $progress: number; $delay: number }>(props 
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 `
 
-const Label = styled.label`
+const Label = styled.label<{ required?: boolean }>`
   display: block;
   margin-bottom: ${theme.spacing.xs};
-  color: ${theme.colors.text.primary};
+  color: ${theme.colors.text.light};
   font-weight: 500;
+
+  &::after {
+    content: ${props => props.required ? '" *"' : '""'};
+    color: ${theme.colors.text.light};
+  }
 `
 
 const Input = styled.input`
@@ -280,6 +315,7 @@ export function Contact() {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
+          tour: formData.tour,
           message: formData.message,
           _subject: 'New contact from Take Flight Birding'
         })
@@ -308,24 +344,34 @@ export function Contact() {
   }
 
   return (
-    <ContactSection id="contact" ref={sectionRef}>
+    <ContactSection ref={sectionRef} id="contact">
+      <BackgroundImage>
+        <Image
+          src={images.contact}
+          alt="Beautiful New Mexico landscape"
+          fill
+          style={{ 
+            objectFit: 'cover',
+            objectPosition: 'center center'
+          }}
+          sizes="100vw"
+        />
+      </BackgroundImage>
+      <Overlay />
       <Container>
         <ContactGrid>
           <ContactInfo $progress={scrollProgress}>
-            <div>
-              <ContactTitle $progress={scrollProgress}>{content.contact.title}</ContactTitle>
-              <ContactDescription $progress={scrollProgress}>{content.contact.description}</ContactDescription>
-            </div>
-            
+            <ContactTitle $progress={scrollProgress}>{content.contact.title}</ContactTitle>
+            <ContactDescription $progress={scrollProgress}>
+              {content.contact.description}
+            </ContactDescription>
             <ContactDetails $progress={scrollProgress}>
               <ContactItem $progress={scrollProgress} $delay={0.4}>
-                <a href={`mailto:${content.contact.email}`}>{content.contact.email}</a>
+                <span>{content.contact.email}</span>
               </ContactItem>
-              
               <ContactItem $progress={scrollProgress} $delay={0.5}>
-                <a href={`tel:+1${content.contact.phone.replace(/\D/g, '')}`}>{content.contact.phone}</a>
+                <a href={`tel:${content.contact.phone.replace(/[^0-9+]/g, '')}`}>{content.contact.phone}</a>
               </ContactItem>
-              
               <ContactItem $progress={scrollProgress} $delay={0.6}>
                 <span>{content.contact.location}</span>
               </ContactItem>
@@ -334,38 +380,34 @@ export function Contact() {
 
           <ContactForm onSubmit={handleSubmit} $progress={scrollProgress}>
             {isSubmitted && (
-              <SuccessMessage>
-                {content.contact.successMessage}
-              </SuccessMessage>
+              <SuccessMessage>{content.contact.successMessage}</SuccessMessage>
             )}
             
             <FormGroup $progress={scrollProgress} $delay={0.2}>
-              <Label htmlFor="name">Name *</Label>
+              <Label htmlFor="name" required>Name</Label>
               <Input
                 type="text"
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                autoComplete="name"
                 required
               />
             </FormGroup>
 
-            <FormGroup $progress={scrollProgress} $delay={0.25}>
-              <Label htmlFor="email">Email *</Label>
+            <FormGroup $progress={scrollProgress} $delay={0.3}>
+              <Label htmlFor="email" required>Email</Label>
               <Input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                autoComplete="email"
                 required
               />
             </FormGroup>
 
-            <FormGroup $progress={scrollProgress} $delay={0.3}>
+            <FormGroup $progress={scrollProgress} $delay={0.4}>
               <Label htmlFor="phone">Phone</Label>
               <Input
                 type="tel"
@@ -373,23 +415,42 @@ export function Contact() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                autoComplete="tel"
               />
             </FormGroup>
 
-            <FormGroup $progress={scrollProgress} $delay={0.35}>
+            <FormGroup $progress={scrollProgress} $delay={0.5}>
+              <Label htmlFor="tour">Interested In</Label>
+              <Input
+                as="select"
+                id="tour"
+                name="tour"
+                value={formData.tour}
+                onChange={handleChange}
+              >
+                <option value="">Select an option</option>
+                <option value="personalized">Personalized Birding Tours</option>
+                <option value="group">Educational Group Adventures</option>
+                <option value="classes">Field-Based Birding Classes</option>
+                <option value="other">Other</option>
+              </Input>
+            </FormGroup>
+
+            <FormGroup $progress={scrollProgress} $delay={0.6}>
               <Label htmlFor="message">Message</Label>
               <TextArea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Tell me about your birding experience and what you're hoping to see..."
-                autoComplete="off"
+                placeholder="Tell me about your interests and what kind of birding experience you're looking for..."
               />
             </FormGroup>
 
-            <SubmitButton type="submit" disabled={isSubmitting} $progress={scrollProgress}>
+            <SubmitButton 
+              type="submit" 
+              disabled={isSubmitting}
+              $progress={scrollProgress}
+            >
               {isSubmitting ? 'Sending...' : 'Send Message'}
             </SubmitButton>
           </ContactForm>

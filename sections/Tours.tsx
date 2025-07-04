@@ -203,21 +203,26 @@ const ArrowButton = styled.button`
   position: absolute;
   bottom: ${theme.spacing.md};
   right: ${theme.spacing.md};
-  width: 32px;
-  height: 32px;
   background: none;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: ${theme.spacing.xs};
   transition: all 0.3s ease;
   z-index: 4;
   opacity: 0.8;
+  color: ${theme.colors.text.light};
+  font-size: ${theme.fontSizes.sm};
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 
   &:hover {
     opacity: 1;
     transform: translateX(3px);
+  }
+
+  span {
+    font-weight: 500;
   }
 
   svg {
@@ -233,8 +238,6 @@ const ArrowButton = styled.button`
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    width: 28px;
-    height: 28px;
     bottom: ${theme.spacing.sm};
     right: ${theme.spacing.sm};
 
@@ -293,7 +296,7 @@ export function Tours() {
   // Define images for each tour
   const tourImages = [
     '/images/tours-birding.jpg',
-    '/images/tours-birding-2.jpg', 
+    '/images/tours-birding-2.jpg',
     '/images/tours-birding-3.jpg'
   ]
 
@@ -326,7 +329,11 @@ export function Tours() {
                   fill
                   style={{ 
                     objectFit: 'cover',
-                    transform: index === 0 ? 'scale(1.3) translateX(10%) translateY(-10%)' : 'scale(1)'
+                    transform: index === 0 
+                      ? 'scale(1.2) scaleX(-1) translateY(5%)' 
+                      : index === 2 
+                        ? 'scale(1.2) translateY(8%)' 
+                        : 'scale(1.3)'
                   }}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
@@ -344,7 +351,8 @@ export function Tours() {
               </CardContent>
 
               <ArrowButton onClick={handleContactClick}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <span>Learn More</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
               </ArrowButton>

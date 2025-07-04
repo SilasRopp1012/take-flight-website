@@ -16,7 +16,21 @@ const Container = styled.div`
   padding: 0 ${theme.spacing.md};
 `
 
-const AboutGrid = styled.div`
+// Create two separate grid sections
+const TopGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${theme.spacing['2xl']};
+  align-items: center;
+  margin-bottom: ${theme.spacing['3xl']};
+
+  @media (max-width: ${theme.breakpoints.lg}) {
+    grid-template-columns: 1fr;
+    gap: ${theme.spacing.xl};
+  }
+`
+
+const BottomGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: ${theme.spacing['2xl']};
@@ -120,30 +134,63 @@ const AboutImageContainer = styled.div.attrs<{ $progress: number }>(props => ({
   }
 `
 
+// Add a container for both images
+const ImagesContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${theme.spacing.lg};
+`
+
 export function About() {
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const sectionRef = useRef<HTMLElement>(null)
+  // Separate scroll progress states for top and bottom sections
+  const [topScrollProgress, setTopScrollProgress] = useState(0)
+  const [bottomScrollProgress, setBottomScrollProgress] = useState(0)
+  
+  // Separate refs for each section
+  const topSectionRef = useRef<HTMLElement>(null)
+  const bottomSectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!sectionRef.current) return
-
-      const rect = sectionRef.current.getBoundingClientRect()
-      const windowHeight = window.innerHeight
-      
-      const startPoint = windowHeight * 0.8
-      const endPoint = windowHeight * 0.2
-      
-      let progress = 0
-      
-      if (rect.top <= startPoint && rect.top >= endPoint) {
-        progress = (startPoint - rect.top) / (startPoint - endPoint)
-      } else if (rect.top < endPoint) {
-        progress = 1
+      // Top section animation
+      if (topSectionRef.current) {
+        const rect = topSectionRef.current.getBoundingClientRect()
+        const windowHeight = window.innerHeight
+        
+        const startPoint = windowHeight * 0.8
+        const endPoint = windowHeight * 0.2
+        
+        let progress = 0
+        
+        if (rect.top <= startPoint && rect.top >= endPoint) {
+          progress = (startPoint - rect.top) / (startPoint - endPoint)
+        } else if (rect.top < endPoint) {
+          progress = 1
+        }
+        
+        progress = Math.max(0, Math.min(1, progress))
+        setTopScrollProgress(progress)
       }
-      
-      progress = Math.max(0, Math.min(1, progress))
-      setScrollProgress(progress)
+
+      // Bottom section animation
+      if (bottomSectionRef.current) {
+        const rect = bottomSectionRef.current.getBoundingClientRect()
+        const windowHeight = window.innerHeight
+        
+        const startPoint = windowHeight * 0.8
+        const endPoint = windowHeight * 0.2
+        
+        let progress = 0
+        
+        if (rect.top <= startPoint && rect.top >= endPoint) {
+          progress = (startPoint - rect.top) / (startPoint - endPoint)
+        } else if (rect.top < endPoint) {
+          progress = 1
+        }
+        
+        progress = Math.max(0, Math.min(1, progress))
+        setBottomScrollProgress(progress)
+      }
     }
 
     handleScroll()
@@ -155,29 +202,28 @@ export function About() {
   }, [])
 
   return (
-    <AboutSection id="about" ref={sectionRef}>
+    <AboutSection id="about" ref={topSectionRef}>
       <Container>
-        <AboutGrid>
-          {/* Mobile-only title - shows first on mobile */}
-          <MobileTitleContainer>
-            <MobileTitle $progress={scrollProgress}>{content.about.title}</MobileTitle>
-          </MobileTitleContainer>
-          
-          {/* Desktop: content with title, Mobile: content without title (shows after image) */}
-          <AboutContent $progress={scrollProgress}>
-            <AboutTitle $progress={scrollProgress}>{content.about.title}</AboutTitle>
-            {content.about.paragraphs.map((paragraph, index) => (
-              <AboutParagraph key={index} $progress={scrollProgress} $delay={0.1 + (index * 0.1)}>
+        {/* Mobile-only title */}
+        <MobileTitleContainer>
+          <MobileTitle $progress={topScrollProgress}>{content.about.title}</MobileTitle>
+        </MobileTitleContainer>
+        
+        {/* Top section: First two paragraphs and guide image */}
+        <TopGrid>
+          <AboutContent $progress={topScrollProgress}>
+            <AboutTitle $progress={topScrollProgress}>{content.about.title}</AboutTitle>
+            {content.about.paragraphs.slice(0, 2).map((paragraph, index) => (
+              <AboutParagraph key={index} $progress={topScrollProgress} $delay={0.1 + (index * 0.1)}>
                 {paragraph}
               </AboutParagraph>
             ))}
           </AboutContent>
           
-          {/* Image - shows second on mobile */}
-          <AboutImageContainer $progress={scrollProgress}>
+          <AboutImageContainer $progress={topScrollProgress}>
             <Image
               src={images.about}
-              alt="A photo of Chris with binoculars in the field"
+              alt="A photo of Chris with binoculars in the field in 1982"
               fill
               style={{ 
                 objectFit: 'cover',
@@ -186,7 +232,35 @@ export function About() {
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </AboutImageContainer>
-        </AboutGrid>
+        </TopGrid>
+        
+        {/* Bottom section: New image and last three paragraphs */}
+        <BottomGrid ref={bottomSectionRef}>
+          <AboutImageContainer $progress={bottomScrollProgress}>
+            <Image
+              src={images.aboutSecondary}
+              alt="A current photo of Chris in the New Mexico wilderness"
+              fill
+              style={{ 
+                objectFit: 'cover',
+                objectPosition: 'center'
+              }}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </AboutImageContainer>
+          
+          <AboutContent $progress={bottomScrollProgress}>
+            {content.about.paragraphs.slice(2).map((paragraph, index) => (
+              <AboutParagraph 
+                key={index + 2} 
+                $progress={bottomScrollProgress} 
+                $delay={0.1 + (index * 0.1)}
+              >
+                {paragraph}
+              </AboutParagraph>
+            ))}
+          </AboutContent>
+        </BottomGrid>
       </Container>
     </AboutSection>
   )

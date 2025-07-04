@@ -36,7 +36,6 @@ export default function Home() {
               "addressLocality": "Santa Fe",
               "addressRegion": "NM"
             },
-            "email": "chris.chappell4@gmail.com",
             "telephone": "(505)-310-3205"
           })}
         </script>
