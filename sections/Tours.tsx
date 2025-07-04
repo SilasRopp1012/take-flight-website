@@ -1,14 +1,23 @@
 import Image from 'next/image'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { theme } from '@/config/theme'
 import { images } from '@/config/images'
 import { content } from '@/config/content'
 import { useRef, useEffect, useState } from 'react'
 
+const shimmer = keyframes`
+  0% {
+    background-position: -100% -100%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+`;
+
 const ToursSection = styled.section`
   padding: ${theme.spacing.xl} 0;
   background-color: ${theme.colors.background.primary};
-  
+  z
   @media (max-width: ${theme.breakpoints.md}) {
     padding: ${theme.spacing.lg} 0;
   }
@@ -49,10 +58,56 @@ const ToursGrid = styled.div`
   }
 `
 
+const TiltCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const mouseX = e.clientX - centerX;
+    const mouseY = e.clientY - centerY;
+    
+    const rotateX = (mouseY / rect.height) * -4;
+    const rotateY = (mouseX / rect.width) * 4;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+
+    // Smoother angle calculation that avoids rapid spinning
+    const baseAngle = 135;
+    const maxAngleOffset = 30;
+    const xOffset = (mouseX / (rect.width / 2)) * maxAngleOffset;
+    const yOffset = (mouseY / (rect.height / 2)) * maxAngleOffset;
+    const angle = baseAngle + xOffset + yOffset;
+    
+    card.style.setProperty('--gradient-angle', `${angle}deg`);
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      className={`tilt-card ${className}`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transformStyle: 'preserve-3d', transition: 'transform 0.15s ease-out' }}
+    >
+      {children}
+    </div>
+  );
+};
+
 const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props => ({
   style: {
     opacity: Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2)),
-    transform: `translateY(${(1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 50}px)`,
   },
 }))<{ $progress: number; $delay: number }>`
   position: relative;
@@ -60,21 +115,41 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  will-change: transform, box-shadow;
+  will-change: transform;
+  border: 2px solid rgba(0, 0, 0, 1.0);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1),
+              0 0 20px rgba(255, 255, 255, 0.05),
+              inset 0 0 20px rgba(255, 255, 255, 0.05);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    right: -150%;
+    bottom: -150%;
+    background: radial-gradient(
+      farthest-corner circle at center,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.01) 30%,
+      rgba(255,255,255,0.03) 50%,
+      rgba(255,255,255,0.01) 70%,
+      rgba(255,255,255,0) 100%
+    );
+    background-size: 200% 200%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
 
-  &:hover {
-    transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 50 - 5}px) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  &:hover::before {
+    opacity: 1;
+    animation: ${shimmer} 6s ease-in-out infinite;
   }
   
   @media (max-width: ${theme.breakpoints.lg}) {
     height: 500px;
-    
-    &:hover {
-      transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - props.$delay) * 2))) * 30 - 5}px) !important;
-    }
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
@@ -105,23 +180,6 @@ const CardOverlay = styled.div`
     rgba(0, 0, 0, 0.8) 100%
   );
   z-index: 2;
-`
-
-const HoverOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 2;
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
-  will-change: opacity;
-
-  ${TourCard}:hover & {
-    opacity: 1;
-  }
 `
 
 const CardContent = styled.div`
@@ -316,47 +374,43 @@ export function Tours() {
         
         <ToursGrid>
           {content.tours.offerings.map((offering, index) => (
-            <TourCard 
-              key={offering.id} 
-              $progress={scrollProgress}
-              $delay={0.1 + (index * 0.1)}
-              onClick={handleContactClick}
-            >
-              <CardBackground>
-                <Image
-                  src={tourImages[index]}
-                  alt={offering.title}
-                  fill
-                  style={{ 
-                    objectFit: 'cover',
-                    transform: index === 0 
-                      ? 'scale(1.2) scaleX(-1) translateY(5%)' 
-                      : index === 2 
-                        ? 'scale(1.2) translateY(8%)' 
-                        : 'scale(1.3)'
-                  }}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
-              </CardBackground>
-              <CardOverlay />
-              <HoverOverlay />
-              
-              <CardContent>
-                <CardTitle>{offering.title}</CardTitle>
-                <TourFeatures>
-                  {offering.features.map((feature: string, featureIndex: number) => (
-                    <li key={featureIndex}>{feature}</li>
-                  ))}
-                </TourFeatures>
-              </CardContent>
+            <TiltCard key={offering.id}>
+              <TourCard $progress={scrollProgress} $delay={0.2 + index * 0.1}>
+                <CardBackground>
+                  <Image
+                    src={tourImages[index]}
+                    alt={offering.title}
+                    fill
+                    style={{ 
+                      objectFit: 'cover',
+                      transform: index === 0 
+                        ? 'scale(1.2) scaleX(-1) translateY(5%)' 
+                        : index === 2 
+                          ? 'scale(1.2) translateY(8%)' 
+                          : 'scale(1.3)'
+                    }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </CardBackground>
+                <CardOverlay />
+                
+                <CardContent>
+                  <CardTitle>{offering.title}</CardTitle>
+                  <TourFeatures>
+                    {offering.features.map((feature: string, featureIndex: number) => (
+                      <li key={featureIndex}>{feature}</li>
+                    ))}
+                  </TourFeatures>
+                </CardContent>
 
-              <ArrowButton onClick={handleContactClick}>
-                <span>Learn More</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </ArrowButton>
-            </TourCard>
+                <ArrowButton onClick={handleContactClick}>
+                  <span>Learn More</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </ArrowButton>
+              </TourCard>
+            </TiltCard>
           ))}
         </ToursGrid>
       </Container>
