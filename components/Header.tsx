@@ -257,9 +257,7 @@ export function Header() {
   const handleLogoClick = () => {
     setIsMobileMenuOpen(false)
     
-    // Clear the hash from URL and return to base domain
-    window.history.pushState(null, '', window.location.pathname)
-    
+    // Only update scroll position without changing URL or forcing re-render
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -287,11 +285,11 @@ export function Header() {
     setIsMobileMenuOpen(false)
     
     // Special handling only for Tours section
-    if (href === '#tours') {
+    if (href === '#services') {
       // Update the URL hash
       window.history.pushState(null, '', href)
       
-      const toursElement = document.getElementById('tours')
+      const toursElement = document.getElementById('services')
       if (toursElement) {
         const headerHeight = 80 // Fixed header height
         const elementTop = toursElement.offsetTop
@@ -342,7 +340,7 @@ export function Header() {
               <a 
                 href={item.href} 
                 onClick={(e) => {
-                  if (item.href === '#tours') {
+                  if (item.href === '#services') {
                     e.preventDefault()
                     handleNavClick(item.href)
                   } else {
@@ -370,7 +368,7 @@ export function Header() {
               <a 
                 href={item.href} 
                 onClick={(e) => {
-                  if (item.href === '#tours') {
+                  if (item.href === '#services') {
                     e.preventDefault()
                     handleNavClick(item.href)
                   } else {
