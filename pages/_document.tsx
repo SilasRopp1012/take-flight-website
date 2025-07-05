@@ -56,11 +56,33 @@ export default class MyDocument extends Document {
           {/* Canonical URL */}
           <link rel="canonical" href="https://takeflightbirding.com" />
 
-          {/* Your existing Google Fonts */}
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          {/* Preload critical fonts */}
+          <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap"
+            as="style"
+          />
+          <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap"
+            as="style"
+          />
+          
+          {/* Add preconnect hints */}
           <link 
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Marcellus&display=swap"
+            rel="preconnect" 
+            href="https://fonts.googleapis.com" 
+            crossOrigin="anonymous"
+          />
+          <link 
+            rel="preconnect" 
+            href="https://fonts.gstatic.com" 
+            crossOrigin="anonymous"
+          />
+
+          {/* Load fonts */}
+          <link 
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap"
             rel="stylesheet"
           />
           <link 

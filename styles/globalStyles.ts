@@ -81,4 +81,21 @@ export const GlobalStyles = createGlobalStyle`
   section {
     scroll-margin-top: 80px; /* Account for sticky header */
   }
+
+  /* Add font-display: swap to font declarations */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2) format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Marcellus';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/marcellus/v13/wEO_EBrOk8hQLDvIAF81WPoK.woff2) format('woff2');
+  }
 ` 

@@ -197,27 +197,28 @@ export function Gallery() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
-          if (entry.target === titleRef.current) {
-            setTitleProgress(entry.isIntersecting ? entry.intersectionRatio : 0)
-          } else {
-            const index = imageRefs.current.findIndex(ref => ref === entry.target)
-            if (index !== -1) {
-              setImageProgress(prev => {
-                const newProgress = [...prev]
-                newProgress[index] = entry.isIntersecting ? entry.intersectionRatio : 0
-                return newProgress
-              })
+        // Batch all measurements into one frame
+        requestAnimationFrame(() => {
+          const newProgress = [...imageProgress];
+          entries.forEach(entry => {
+            if (entry.target === titleRef.current) {
+              setTitleProgress(entry.isIntersecting ? entry.intersectionRatio : 0);
+            } else {
+              const index = imageRefs.current.findIndex(ref => ref === entry.target);
+              if (index !== -1) {
+                newProgress[index] = entry.isIntersecting ? entry.intersectionRatio : 0;
+              }
             }
-          }
-        })
+          });
+          setImageProgress(newProgress);
+        });
       },
       {
         root: null,
         rootMargin: '-100px',
         threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
       }
-    )
+    );
 
     setImageProgress(new Array(visibleCount).fill(0))
 

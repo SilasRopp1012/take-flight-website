@@ -8,6 +8,7 @@ const nextConfig = {
     domains: [],
     formats: ['image/webp'],
   },
+  optimizeFonts: true,
   async headers() {
     return [
       {
@@ -40,6 +41,19 @@ const nextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      },
+      {
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
           }
         ]
       }
