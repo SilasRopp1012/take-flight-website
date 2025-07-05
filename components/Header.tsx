@@ -254,14 +254,17 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
-  const handleLogoClick = () => {
-    setIsMobileMenuOpen(false)
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
     
-    // Only update scroll position without changing URL or forcing re-render
+    // Update URL without triggering re-render
+    window.history.replaceState(null, '', window.location.pathname);
+    
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
-    })
+    });
   }
 
   useEffect(() => {
@@ -329,7 +332,7 @@ export function Header() {
   return (
     <HeaderContainer $isScrolled={isScrolled}>
       <Nav>
-        <Logo $isScrolled={isScrolled} href="/" onClick={handleLogoClick}>
+        <Logo $isScrolled={isScrolled} onClick={handleLogoClick}>
           <LogoTitle $isScrolled={isScrolled}>{content.header.title}</LogoTitle>
           <LogoSubtitle $isScrolled={isScrolled}>{content.header.subtitle}</LogoSubtitle>
         </Logo>

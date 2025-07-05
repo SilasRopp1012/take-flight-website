@@ -112,14 +112,9 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
 }))<{ $progress: number; $delay: number }>`
   position: relative;
   height: 550px;
-  border-radius: 20px;
   overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   will-change: transform;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1),
-              0 0 20px rgba(255, 255, 255, 0.05),
-              inset 0 0 20px rgba(255, 255, 255, 0.05);
+  perspective: 1000px;
   
   &::before {
     content: '';
@@ -202,6 +197,8 @@ const CardTitle = styled.h3`
   font-weight: 600;
   line-height: 1.2;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  user-select: none;
+  cursor: default;
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: ${theme.fontSizes.xl};
@@ -213,6 +210,8 @@ const TourFeatures = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+  user-select: none;
+  cursor: default;
 
   li {
     color: ${theme.colors.text.light};
@@ -294,6 +293,7 @@ const BackArrowButton = styled(ArrowButton)`
   left: ${theme.spacing.md};
   right: auto;
   color: ${theme.colors.text.primary};
+  cursor: pointer;
 
   span {
     width: 0;
@@ -330,6 +330,7 @@ const BackArrowButton = styled(ArrowButton)`
 const BacksideArrowButton = styled(ArrowButton)`
   color: ${theme.colors.text.primary};
   text-shadow: none;
+  cursor: pointer;
 
   span {
     color: ${theme.colors.text.primary};
@@ -393,12 +394,16 @@ const BackTitle = styled.h3`
   color: ${theme.colors.text.primary};
   margin-bottom: ${theme.spacing.lg};
   font-weight: 600;
+  user-select: none;
+  cursor: default;
 `
 
 const BackDescription = styled.p`
   font-size: ${theme.fontSizes.base};
   line-height: 1.6;
   color: ${theme.colors.text.secondary};
+  user-select: none;
+  cursor: default;
 `
 
 const BackContent = styled.div`
