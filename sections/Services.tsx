@@ -147,7 +147,11 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    height: 450px;
+    height: 600px;
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    height: 650px;
   }
 `
 
@@ -187,7 +191,7 @@ const CardContent = styled.div`
   color: ${theme.colors.text.light};
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: ${theme.spacing.xl} ${theme.spacing.lg};
+    padding: ${theme.spacing.xl} ${theme.spacing.lg} ${theme.spacing['2xl']} ${theme.spacing.lg};
   }
 `
 
@@ -202,7 +206,7 @@ const CardTitle = styled.h3`
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: ${theme.fontSizes.xl};
-    margin-bottom: ${theme.spacing.md};
+    margin-bottom: 0;
   }
 `
 
@@ -212,6 +216,7 @@ const TourFeatures = styled.ul`
   margin: 0;
   user-select: none;
   cursor: default;
+  margin-top: auto;
 
   li {
     color: ${theme.colors.text.light};
@@ -223,8 +228,9 @@ const TourFeatures = styled.ul`
     font-size: ${theme.fontSizes.sm};
 
     @media (max-width: ${theme.breakpoints.md}) {
-      font-size: ${theme.fontSizes.xs};
-      margin-bottom: ${theme.spacing.xs};
+      font-size: ${theme.fontSizes.sm};
+      margin-bottom: ${theme.spacing.sm};
+      line-height: 1.6;
     }
 
     &:before {
@@ -287,6 +293,27 @@ const ArrowButton = styled.button`
       color: ${theme.colors.text.light};
     }
   }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    bottom: ${theme.spacing.lg};
+    gap: ${theme.spacing.xs};
+    opacity: 1;
+
+    svg {
+      width: 24px;
+      opacity: 1;
+    }
+
+    &:hover {
+      span {
+        color: inherit;
+      }
+      
+      svg {
+        color: ${theme.colors.text.light};
+      }
+    }
+  }
 `
 
 const BackArrowButton = styled(ArrowButton)`
@@ -323,6 +350,26 @@ const BackArrowButton = styled(ArrowButton)`
       opacity: 1;
       margin-right: ${theme.spacing.xs};
       color: ${theme.colors.text.primary};
+    }
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    span {
+      width: auto;
+      opacity: 1;
+      margin-right: ${theme.spacing.xs};
+      overflow: visible;
+    }
+
+    &:hover {
+      span {
+        width: auto;
+        color: ${theme.colors.text.primary};
+      }
+      
+      svg {
+        color: ${theme.colors.text.primary};
+      }
     }
   }
 `

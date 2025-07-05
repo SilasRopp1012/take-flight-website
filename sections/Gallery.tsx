@@ -34,13 +34,16 @@ const GalleryGrid = styled.div`
   gap: ${theme.spacing.md};
 `
 
-const ImageContainer = styled.div<{ $progress: number }>`
+const ImageContainer = styled.div.attrs<{ $progress: number }>(props => ({
+  style: {
+    opacity: Math.max(0, Math.min(1, props.$progress * 1.5)),
+    transform: `translateY(${(1 - Math.max(0, Math.min(1, props.$progress * 1.5))) * 30}px)`,
+  },
+}))<{ $progress: number }>`
   position: relative;
   aspect-ratio: 4/3;
   border-radius: 12px;
   overflow: hidden;
-  opacity: ${props => Math.max(0, Math.min(1, props.$progress * 1.5))};
-  transform: translateY(${props => (1 - Math.max(0, Math.min(1, props.$progress * 1.5))) * 30}px);
   transition: opacity 0.1s ease-out, transform 0.1s ease-out;
   
   &:hover {

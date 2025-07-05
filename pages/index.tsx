@@ -12,6 +12,24 @@ import { Testimonials } from '@/sections/Testimonials'
 import { Gallery } from '@/sections/Gallery'
 
 export default function Home() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "TourismBusiness",
+    "name": "Take Flight Birding and Nature Adventures",
+    "image": "https://takeflightbirding.com/images/hero-birding.jpg",
+    "description": "Expert birding tours and nature adventures in New Mexico. Professional guide Chris Chappell offers personalized experiences and educational tours.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Santa Fe",
+      "addressRegion": "NM",
+      "addressCountry": "US"
+    },
+    "url": "https://takeflightbirding.com",
+    "telephone": "+1-505-310-3205",
+    "priceRange": "$$",
+    "openingHours": "Mo-Su",
+  }
+
   return (
     <>
       <Head>
@@ -45,6 +63,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" type="image/png" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </Head>
 
       <ThemeProvider theme={theme}>

@@ -340,7 +340,11 @@ export function Header() {
   return (
     <HeaderContainer $isScrolled={isScrolled}>
       <Nav>
-        <Logo $isScrolled={isScrolled} onClick={handleLogoClick}>
+        <Logo 
+          href="/"
+          $isScrolled={isScrolled}
+          onClick={handleLogoClick}
+        >
           <LogoTitle $isScrolled={isScrolled}>{content.header.title}</LogoTitle>
           <LogoSubtitle $isScrolled={isScrolled}>{content.header.subtitle}</LogoSubtitle>
         </Logo>
@@ -365,14 +369,25 @@ export function Header() {
           ))}
         </NavLinks>
 
-        <MobileMenuButton $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} onClick={handleMobileMenuToggle}>
+        <MobileMenuButton 
+          onClick={handleMobileMenuToggle} 
+          $isScrolled={isScrolled} 
+          $isOpen={isMobileMenuOpen}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu"
+        >
           <HamburgerLine $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} $position="top" />
           <HamburgerLine $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} $position="middle" />
           <HamburgerLine $isScrolled={isScrolled} $isOpen={isMobileMenuOpen} $position="bottom" />
         </MobileMenuButton>
       </Nav>
 
-      <MobileMenu $isOpen={isMobileMenuOpen} $isScrolled={isScrolled}>
+      <MobileMenu 
+        id="mobile-menu"
+        $isOpen={isMobileMenuOpen} 
+        $isScrolled={isScrolled}
+      >
         <ul>
           {content.navigation.map((item) => (
             <NavLink key={item.href}>
