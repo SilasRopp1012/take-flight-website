@@ -147,11 +147,11 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    height: 600px;
+    height: 550px;
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    height: 650px;
+    height: 580px;
   }
 `
 
