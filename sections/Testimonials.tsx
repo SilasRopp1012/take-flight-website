@@ -4,15 +4,15 @@ import { theme } from '@/config/theme'
 import { content } from '@/config/content'
 
 const TestimonialsSection = styled.section`
-  padding: 12rem 0;
+  padding: 12rem 0 8rem;
   background-color: ${theme.colors.background.primary};
   
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 10rem 0;
+    padding: 10rem 0 6rem;
   }
   
   @media (max-width: ${theme.breakpoints.sm}) {
-    padding: 8rem 0;
+    padding: 8rem 0 4rem;
   }
 `
 
@@ -23,7 +23,7 @@ const Container = styled.div`
 `
 
 const SectionHeader = styled.div<{ $progress: number }>`
-  text-align: center;
+  text-align: left;
   margin-bottom: ${theme.spacing['2xl']};
   opacity: ${props => Math.max(0, Math.min(1, props.$progress * 1.5))};
   transform: translateY(${props => (1 - Math.max(0, Math.min(1, props.$progress * 1.5))) * 30}px);
@@ -118,6 +118,46 @@ const TestimonialAuthor = styled.p`
   font-weight: 600;
   margin: 0;
   text-align: right;
+`
+
+const ScrollIndicatorContainer = styled.div<{ $progress: number }>`
+  display: flex;
+  justify-content: center;
+  margin-top: ${theme.spacing.lg};
+  opacity: ${props => Math.max(0, Math.min(1, (props.$progress - 0.2) * 2))};
+  transform: translateY(${props => (1 - Math.max(0, Math.min(1, (props.$progress - 0.2) * 2))) * 40}px);
+  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+`
+
+const ScrollIndicator = styled.div<{ $isPaused: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.xs};
+  opacity: 0.8;
+  transition: opacity 0.2s ease-out;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: ${theme.colors.primary};
+    animation: scrollAnimation 2s infinite;
+    animation-play-state: ${props => props.$isPaused ? 'paused' : 'running'};
+  }
+
+  span {
+    font-size: ${theme.fontSizes.sm};
+    color: ${theme.colors.text.secondary};
+    margin-right: ${theme.spacing.xs};
+  }
+
+  @keyframes scrollAnimation {
+    0%, 100% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+  }
 `
 
 export function Testimonials() {
@@ -219,6 +259,23 @@ export function Testimonials() {
             ))}
           </TestimonialsWrapper>
         </ScrollContainer>
+        
+        <ScrollIndicatorContainer $progress={scrollProgress}>
+          <ScrollIndicator $isPaused={isPaused}>
+            <span>Scroll to see more</span>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </ScrollIndicator>
+        </ScrollIndicatorContainer>
       </Container>
     </TestimonialsSection>
   )

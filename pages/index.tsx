@@ -9,6 +9,7 @@ import { About } from '@/sections/About'
 import { Tours } from '@/sections/Services'
 import { Contact } from '@/sections/Contact'
 import { Testimonials } from '@/sections/Testimonials'
+import { Gallery } from '@/sections/Gallery'
 
 export default function Home() {
   return (
@@ -53,6 +54,7 @@ export default function Home() {
         <About />
         <Tours />
         <Testimonials />
+        <Gallery />
         <Contact />
         <Footer />
       </ThemeProvider>

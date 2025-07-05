@@ -491,7 +491,7 @@ export function Tours() {
   ]
 
   const handleContactClick = () => {
-    const servicesSection = document.getElementById('services')
+    const servicesSection = document.getElementById('contact')
     if (servicesSection) {
       servicesSection.scrollIntoView({ behavior: 'smooth' })
     }

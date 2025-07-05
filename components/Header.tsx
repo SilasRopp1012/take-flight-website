@@ -110,7 +110,11 @@ const NavLinks = styled.ul<{ $isScrolled: boolean }>`
     };
 
     &:hover {
-      color: ${theme.colors.primary};
+      color: ${props => 
+        props.$isScrolled 
+          ? theme.colors.accent
+          : theme.colors.primary
+      };
     }
   }
 
@@ -240,7 +244,11 @@ const MobileMenu = styled.div<{ $isOpen: boolean; $isScrolled: boolean }>`
     };
 
     &:hover {
-      color: ${theme.colors.primary};
+      color: ${props => 
+        props.$isScrolled 
+          ? theme.colors.accent
+          : theme.colors.primary
+      };
     }
   }
 

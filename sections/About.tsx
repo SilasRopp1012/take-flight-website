@@ -22,7 +22,7 @@ const TopGrid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: ${theme.spacing['2xl']};
   align-items: center;
-  margin-bottom: ${theme.spacing['3xl']};
+  margin-bottom: ${theme.spacing.xl};
 
   @media (max-width: ${theme.breakpoints.lg}) {
     grid-template-columns: 1fr;
