@@ -36,15 +36,15 @@ const GalleryGrid = styled.div`
 
 const ImageContainer = styled.div.attrs<{ $progress: number }>(props => ({
   style: {
-    opacity: Math.max(0, Math.min(1, props.$progress * 1.5)),
-    transform: `translateY(${(1 - Math.max(0, Math.min(1, props.$progress * 1.5))) * 30}px)`,
+    opacity: props.$progress,
+    transform: `translateY(${(1 - props.$progress) * 30}px)`,
   },
 }))<{ $progress: number }>`
   position: relative;
   aspect-ratio: 4/3;
   border-radius: 12px;
   overflow: hidden;
-  transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
   
   &:hover {
     transform: translateY(-5px) !important;
@@ -195,40 +195,60 @@ export function Gallery() {
   ])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Batch all measurements into one frame
-        requestAnimationFrame(() => {
-          const newProgress = [...imageProgress];
-          entries.forEach(entry => {
-            if (entry.target === titleRef.current) {
-              setTitleProgress(entry.isIntersecting ? entry.intersectionRatio : 0);
-            } else {
-              const index = imageRefs.current.findIndex(ref => ref === entry.target);
-              if (index !== -1) {
-                newProgress[index] = entry.isIntersecting ? entry.intersectionRatio : 0;
-              }
-            }
-          });
-          setImageProgress(newProgress);
-        });
-      },
-      {
-        root: null,
-        rootMargin: '-100px',
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    const calculateProgress = () => {
+      const windowHeight = window.innerHeight;
+      const buffer = 100; // pixels before element enters viewport to start animation
+
+      // Calculate progress for each image
+      const newProgress = imageRefs.current.map(ref => {
+        if (!ref) return 0;
+        
+        const rect = ref.getBoundingClientRect();
+        const elementCenter = rect.top + rect.height / 2;
+        
+        // If element is above viewport center, keep it fully visible
+        if (elementCenter < windowHeight / 2) {
+          return 1;
+        }
+        
+        // If element is below viewport, keep it hidden
+        if (rect.top > windowHeight + buffer) {
+          return 0;
+        }
+        
+        // Calculate progress based on element position
+        const progress = 1 - (rect.top - (windowHeight - buffer)) / (windowHeight + buffer);
+        return Math.max(0, Math.min(1, progress));
+      });
+
+      setImageProgress(newProgress);
+
+      // Calculate title progress
+      if (titleRef.current) {
+        const titleRect = titleRef.current.getBoundingClientRect();
+        const titleProgress = 1 - (titleRect.top - (windowHeight - buffer)) / (windowHeight + buffer);
+        setTitleProgress(Math.max(0, Math.min(1, titleProgress)));
       }
-    );
+    };
 
-    setImageProgress(new Array(visibleCount).fill(0))
+    // Set initial progress
+    setImageProgress(new Array(visibleCount).fill(0));
+    
+    // Calculate on scroll
+    const handleScroll = () => {
+      requestAnimationFrame(calculateProgress);
+    };
 
-    if (titleRef.current) observer.observe(titleRef.current)
-    imageRefs.current.forEach(ref => {
-      if (ref) observer.observe(ref)
-    })
-
-    return () => observer.disconnect()
-  }, [visibleCount])
+    // Initial calculation
+    calculateProgress();
+    
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [visibleCount]);
 
   const handleShowLess = () => {
     const gallerySection = document.getElementById('gallery');
