@@ -239,6 +239,91 @@ const SuccessMessage = styled.div`
   margin-bottom: ${theme.spacing.md};
 `
 
+const NewsletterContainer = styled.div`
+  margin-top: auto;  // Push it to the bottom of ContactInfo
+  padding-top: ${theme.spacing.xl};
+`
+
+const NewsletterText = styled.p`
+  color: ${theme.colors.text.light};
+  font-size: ${theme.fontSizes.sm};
+  margin-bottom: ${theme.spacing.sm};
+  user-select: none;
+  cursor: default;
+`
+
+const NewsletterForm = styled.form`
+  display: flex;
+  gap: ${theme.spacing.sm};
+  
+  input {
+    flex: 1;
+    padding: ${theme.spacing.xs} ${theme.spacing.sm};
+    border: 2px solid ${theme.colors.background.secondary};
+    border-radius: 8px;
+    font-size: ${theme.fontSizes.base};
+    background: rgba(255, 255, 255, 0.1);
+    color: ${theme.colors.text.light};
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: ${theme.colors.primary};
+    }
+  }
+  
+  button {
+    padding: ${theme.spacing.xs} ${theme.spacing.md};
+    background-color: #2F6FA3;
+    color: ${theme.colors.text.light};
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    
+    &:hover {
+      background-color: ${theme.colors.accent};
+      transform: translateY(-1px);
+    }
+  }
+`
+
+const NewsletterButton = styled.button`
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
+  background-color: #2F6FA3;
+  color: ${theme.colors.text.light};
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  
+  svg {
+    width: 0;
+    height: 24px;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+  
+  &:hover {
+    background-color: ${theme.colors.primary};
+    transform: translateY(-1px);
+    gap: ${theme.spacing.xs};
+    
+    svg {
+      width: 24px;
+      opacity: 1;
+    }
+  }
+`
+
 export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -251,6 +336,7 @@ export function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
+  const [newsletterEmail, setNewsletterEmail] = useState('')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -343,6 +429,11 @@ export function Contact() {
     setIsSubmitting(false)
   }
 
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle newsletter submission
+  }
+
   return (
     <ContactSection ref={sectionRef} id="contact">
       <BackgroundImage>
@@ -376,6 +467,25 @@ export function Contact() {
                 <span>{content.contact.location}</span>
               </ContactItem>
             </ContactDetails>
+            
+            <NewsletterContainer>
+              <NewsletterText>Sign up to receive updates about upcoming group tours and birding classes!</NewsletterText>
+              <NewsletterForm onSubmit={handleNewsletterSubmit}>
+                <input 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  required
+                />
+                <NewsletterButton type="submit">
+                  <span>Sign Up</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </NewsletterButton>
+              </NewsletterForm>
+            </NewsletterContainer>
           </ContactInfo>
 
           <ContactForm onSubmit={handleSubmit} $progress={scrollProgress}>
@@ -391,6 +501,7 @@ export function Contact() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                placeholder="Enter your name"
                 required
               />
             </FormGroup>
@@ -403,6 +514,7 @@ export function Contact() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                placeholder="Enter your email"
                 required
               />
             </FormGroup>
@@ -415,6 +527,7 @@ export function Contact() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                placeholder="Enter your phone number"
               />
             </FormGroup>
 
