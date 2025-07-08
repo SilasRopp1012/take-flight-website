@@ -130,7 +130,6 @@ const ButtonContainer = styled.div`
 const formatBirdName = (filename: string) => {
   return filename
     .replace(/\.(jpg|JPG)$/, '')
-    .replace(/-/g, ' ')
     .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between camelCase
     .split(' ')
     .map(word => {
@@ -144,6 +143,7 @@ const formatBirdName = (filename: string) => {
 
 export function Gallery() {
   const INITIAL_IMAGES_COUNT = 6
+  const [isClient, setIsClient] = useState(false)
   const [visibleCount, setVisibleCount] = useState(INITIAL_IMAGES_COUNT)
   const [titleProgress, setTitleProgress] = useState(0)
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -195,35 +195,33 @@ export function Gallery() {
   ])
 
   useEffect(() => {
+    // Mark when we're on the client
+    setIsClient(true)
+    console.log('Gallery mounted on client')
+  }, [])
+
+  useEffect(() => {
+    if (!isClient) return; // Only run scroll calculations on client
+
     const calculateProgress = () => {
       const windowHeight = window.innerHeight;
-      const buffer = 100; // pixels before element enters viewport to start animation
+      const buffer = 100;
 
-      // Calculate progress for each image
       const newProgress = imageRefs.current.map(ref => {
         if (!ref) return 0;
         
         const rect = ref.getBoundingClientRect();
         const elementCenter = rect.top + rect.height / 2;
         
-        // If element is above viewport center, keep it fully visible
-        if (elementCenter < windowHeight / 2) {
-          return 1;
-        }
+        if (elementCenter < windowHeight / 2) return 1;
+        if (rect.top > windowHeight + buffer) return 0;
         
-        // If element is below viewport, keep it hidden
-        if (rect.top > windowHeight + buffer) {
-          return 0;
-        }
-        
-        // Calculate progress based on element position
         const progress = 1 - (rect.top - (windowHeight - buffer)) / (windowHeight + buffer);
         return Math.max(0, Math.min(1, progress));
       });
 
       setImageProgress(newProgress);
 
-      // Calculate title progress
       if (titleRef.current) {
         const titleRect = titleRef.current.getBoundingClientRect();
         const titleProgress = 1 - (titleRect.top - (windowHeight - buffer)) / (windowHeight + buffer);
@@ -231,10 +229,6 @@ export function Gallery() {
       }
     };
 
-    // Set initial progress
-    setImageProgress(new Array(visibleCount).fill(0));
-    
-    // Calculate on scroll
     const handleScroll = () => {
       requestAnimationFrame(calculateProgress);
     };
@@ -242,13 +236,9 @@ export function Gallery() {
     // Initial calculation
     calculateProgress();
     
-    // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [visibleCount]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isClient, visibleCount]); // Only run when isClient changes or visibleCount changes
 
   const handleShowLess = () => {
     const gallerySection = document.getElementById('gallery');
@@ -266,13 +256,18 @@ export function Gallery() {
   return (
     <GallerySection id="gallery">
       <Container>
-        <GalleryTitle ref={titleRef} $progress={titleProgress}>Gallery</GalleryTitle>
+        <GalleryTitle 
+          ref={titleRef} 
+          $progress={isClient ? titleProgress : 1}
+        >
+          Gallery
+        </GalleryTitle>
         <GalleryGrid>
           {images.slice(0, visibleCount).map((image, index) => (
             <ImageWrapper key={image}>
               <ImageContainer 
                 ref={el => { imageRefs.current[index] = el }}
-                $progress={imageProgress[index] || 0}
+                $progress={isClient ? (imageProgress[index] || 0) : 1}
               >
                 <StyledImage
                   src={`/images/bird-gallery/${image}`}

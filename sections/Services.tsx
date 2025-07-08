@@ -155,6 +155,14 @@ const TourCard = styled.div.attrs<{ $progress: number; $delay: number }>(props =
   }
 `
 
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transform: scale(1.2); // Add extra padding around the container
+`
+
 const CardBackground = styled.div`
   position: absolute;
   top: 0;
@@ -565,20 +573,23 @@ export function Tours() {
                 <CardSides $isFlipped={flippedCards[offering.id] || false}>
                   <CardFront>
                     <CardBackground>
-                      <Image
-                        src={tourImages[index]}
-                        alt={offering.title}
-                        fill
-                        style={{ 
-                          objectFit: 'cover',
-                          transform: index === 0 
-                            ? 'scale(1.2) scaleX(-1) translateY(5%)' 
-                            : index === 2 
-                              ? 'scale(1.2) translateY(8%)' 
-                              : 'scale(1.3)'
-                        }}
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
+                      <ImageContainer>
+                        <Image
+                          src={tourImages[index]}
+                          alt={offering.title}
+                          fill
+                          quality={100}
+                          sizes="(max-width: 768px) 150vw, 50vw"
+                          style={{ 
+                            objectFit: 'cover',
+                            transform: index === 0 
+                              ? 'scaleX(-1) translateY(5%)'
+                              : index === 2 
+                                ? 'scale(1.1) translateX(-10%)'
+                                : 'none'
+                          }}
+                        />
+                      </ImageContainer>
                     </CardBackground>
                     <CardOverlay />
                     
