@@ -632,7 +632,7 @@ export function Tours() {
                                 <span>$300</span>
                               </PriceRow>
                               <PriceNote>
-                                Additional participants: $25 per person.
+                                Additional participants: $20-30 per person.
                                 <br />
                                 Includes transportation within 40 minutes of Santa Fe.
                                 <br />
@@ -675,7 +675,7 @@ export function Tours() {
                                 <span>Pricing is customized based on class duration, location, and number of participants.</span>
                               </PriceRow>
                               <PriceNote>
-                                Contact me for detailed pricing estimates.
+                                Contact me for potential upcoming classes.
                               </PriceNote>
                             </PricingSection>
                           </>

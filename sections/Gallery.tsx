@@ -128,17 +128,7 @@ const ButtonContainer = styled.div`
 
 // Update the formatBirdName function to be more sophisticated
 const formatBirdName = (filename: string) => {
-  return filename
-    .replace(/\.(jpg|JPG)$/, '')
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between camelCase
-    .split(' ')
-    .map(word => {
-      // Don't capitalize certain words unless they're at the start
-      const lowercaseWords = ['and', 'or', 'the', 'in', 'on', 'at', 'to', 'for', 'of'];
-      return lowercaseWords.includes(word.toLowerCase()) ? word.toLowerCase() : 
-        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    })
-    .join(' ');
+  return filename.replace(/\.(jpg|JPG)$/, ''); // Just remove the file extension
 }
 
 export function Gallery() {
@@ -149,9 +139,11 @@ export function Gallery() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const imageRefs = useRef<(HTMLDivElement | null)[]>([])
   const [imageProgress, setImageProgress] = useState<number[]>([])
-  const [images] = useState([
+  const birdGalleryImages = [
+    'American Avocet.JPG',
     'American Dipper.JPG',
-    "Barrow's Goldeneye.JPG",
+    'American Three-toed Woodpecker.JPG',
+    'Barrow\'s Goldeneye.JPG',
     'Black-chinned Hummingbird.jpg',
     'Black-chinned Sparrow.jpg',
     'Black-headed Grosbeak.JPG',
@@ -165,34 +157,35 @@ export function Gallery() {
     'Common Black Hawk.jpg',
     'Crissal Thrasher.JPG',
     'Dusky Grouse.jpg',
-    "Grace's Warbler.jpg",
+    'Evening Grosbeak.JPG',
+    'Grace\'s Warbler.jpg',
     'Great Horned Owl.JPG',
     'Greater Roadrunner.JPG',
     'Hepatic Tanager.JPG',
     'Ladder-backed Woodpecker.jpg',
     'Lazuli Bunting.JPG',
-    "Lewis's Woodpecker.JPG",
-    "Lucy's Warbler.jpg",
-    "MacGillivray's Warbler.JPG",
-    'Mountain Bluebird pair.JPG',
+    'Lewis\'s Woodpecker.JPG',
+    'Lucy\'s Warbler.jpg',
+    'MacGillivray\'s Warbler.JPG',
+    'Mountain Bluebirds.JPG',
     'Northern Pygmy-Owl.JPG',
     'Pinyon Jay.JPG',
     'Prairie Falcon.jpg',
     'Pygmy Nuthatch.JPG',
     'Red Crossbill.JPG',
     'Sage Thrasher.JPG',
-    'Sandhill Crane pair.jpg',
     'Sandhill Crane.jpg',
+    'Sandhill Cranes.jpg',
     'Scaled Quail.jpg',
     'Short-tailed Weasel.JPG',
-    "Steller's Jay.JPG",
+    'Steller\'s Jay.JPG',
     'Summer Tanager.JPG',
     'Virginia Rail.JPG',
+    'Western Bluebird.JPG',
     'Western Flycatcher.JPG',
     'Western Tanager.jpg',
-    'Yellow-breasted Chat.JPG',
-    'Male Mountain Bluebird.jpg'
-  ])
+    'Yellow-breasted Chat.JPG'
+  ];
 
   useEffect(() => {
     // Mark when we're on the client
@@ -263,7 +256,7 @@ export function Gallery() {
           Gallery
         </GalleryTitle>
         <GalleryGrid>
-          {images.slice(0, visibleCount).map((image, index) => (
+          {birdGalleryImages.slice(0, visibleCount).map((image, index) => (
             <ImageWrapper key={image}>
               <ImageContainer 
                 ref={el => { imageRefs.current[index] = el }}
@@ -274,6 +267,10 @@ export function Gallery() {
                   alt={formatBirdName(image)}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{ 
+                    objectFit: 'cover',
+                    objectPosition: image === 'Summer Tanager.JPG' ? 'center 30%' : 'center'
+                  }}
                 />
               </ImageContainer>
               <ImageCaption>
@@ -285,7 +282,7 @@ export function Gallery() {
         <ButtonContainer>
           <GalleryButton 
             onClick={() => {
-              if (visibleCount >= images.length) {
+              if (visibleCount >= birdGalleryImages.length) {
                 const gallerySection = document.getElementById('gallery');
                 if (gallerySection) {
                   const galleryTop = gallerySection.offsetTop;
@@ -309,13 +306,13 @@ export function Gallery() {
                   requestAnimationFrame(fadeOut);
                 }
               } else {
-                setVisibleCount(count => Math.min(count + INITIAL_IMAGES_COUNT, images.length));
+                setVisibleCount(count => Math.min(count + INITIAL_IMAGES_COUNT, birdGalleryImages.length));
               }
             }}
-            $direction={visibleCount >= images.length ? "up" : "down"}
+            $direction={visibleCount >= birdGalleryImages.length ? "up" : "down"}
           >
             <span>
-              {visibleCount >= images.length ? "Show less" : "Show more"}
+              {visibleCount >= birdGalleryImages.length ? "Show less" : "Show more"}
             </span>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 

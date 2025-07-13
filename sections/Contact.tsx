@@ -337,6 +337,8 @@ export function Contact() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
   const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false)
+  const [isNewsletterSubmitted, setIsNewsletterSubmitted] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -391,7 +393,7 @@ export function Contact() {
     setIsSubmitting(true)
 
     try {
-      const response = await fetch('https://formspree.io/f/xldnlnno', {
+      const response = await fetch('https://formspree.io/f/xgvzwkvl', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -429,9 +431,37 @@ export function Contact() {
     setIsSubmitting(false)
   }
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle newsletter submission
+    setIsNewsletterSubmitting(true)
+
+    try {
+      const response = await fetch('https://formspree.io/f/xpwrvake', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: newsletterEmail,
+          _subject: 'New newsletter signup from Take Flight Birding'
+        })
+      })
+
+      if (response.ok) {
+        setIsNewsletterSubmitted(true)
+        setNewsletterEmail('')
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => setIsNewsletterSubmitted(false), 5000)
+      } else {
+        console.error('Newsletter submission failed')
+      }
+    } catch (error) {
+      console.error('Newsletter submission error:', error)
+    }
+
+    setIsNewsletterSubmitting(false)
   }
 
   return (
@@ -470,6 +500,9 @@ export function Contact() {
             
             <NewsletterContainer>
               <NewsletterText>Sign up to receive updates about upcoming group tours and birding classes!</NewsletterText>
+              {isNewsletterSubmitted && (
+                <SuccessMessage>Thank you for subscribing to our newsletter!</SuccessMessage>
+              )}
               <NewsletterForm onSubmit={handleNewsletterSubmit}>
                 <input 
                   type="email" 
@@ -477,9 +510,10 @@ export function Contact() {
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   required
+                  disabled={isNewsletterSubmitting}
                 />
-                <NewsletterButton type="submit">
-                  <span>Sign Up</span>
+                <NewsletterButton type="submit" disabled={isNewsletterSubmitting}>
+                  <span>{isNewsletterSubmitting ? 'Signing up...' : 'Sign Up'}</span>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>

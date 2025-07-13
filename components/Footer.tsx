@@ -27,7 +27,9 @@ export function Footer() {
     <FooterContainer>
       <FooterContent>
         <FooterText>
-          © {currentYear} Take Flight Birding and Nature Adventures. All rights reserved.
+          © {currentYear} Take Flight Birding and Nature Adventures. All rights reserved. Site by <a href="www.linkedin.com/in/silas-ropp-54b998254
+
+">Silas Ropp</a>.
         </FooterText>
       </FooterContent>
     </FooterContainer>
