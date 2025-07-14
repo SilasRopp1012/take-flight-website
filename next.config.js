@@ -10,7 +10,7 @@ const nextConfig = {
     domains: [],
     formats: ['image/webp'],
   },
-  optimizeFonts: true,
+  optimizeFonts: false,
 };
 
 module.exports = nextConfig;
