@@ -46,7 +46,7 @@ export const content = {
         id: 'group',
         title: 'Educational Group Adventures',
         description: 'Join my regularly scheduled group birding tours that combine the joy of birding with educational insights. Perfect for meeting fellow bird enthusiasts while learning about local species and habitats.',
-        features: ['Regularly scheduled tours', 'Meet fellow birders', 'Educational insights', 'Get to know other local birders']
+        features: ['Regularly scheduled tours', 'Meet fellow birders', 'Educational insights', 'Learn about local species and habitats']
       },
       {
         id: 'classes',
