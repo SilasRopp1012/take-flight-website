@@ -13,4 +13,5 @@ const nextConfig = {
   optimizeFonts: false,
 };
 
+console.log("🔍 CONFIG LOADED:", nextConfig);
 module.exports = nextConfig;
