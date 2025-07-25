@@ -388,9 +388,18 @@ export function Contact() {
     })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault() // Prevent traditional form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setIsSubmitting(true)
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    
+    // Check honeypot
+    if (formData.get('website')) {
+      setIsSubmitting(false)
+      return // Bot detected, do nothing
+    }
 
     try {
       const response = await fetch('https://formspree.io/f/xgvzwkvl', {
@@ -400,11 +409,11 @@ export function Contact() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          tour: formData.tour,
-          message: formData.message,
+          name: formData.get('name'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          tour: formData.get('tour'),
+          message: formData.get('message'),
           _subject: 'New contact from Take Flight Birding'
         })
       })
@@ -418,8 +427,6 @@ export function Contact() {
           tour: '',
           message: '',
         })
-        
-        // Reset success message after 5 seconds
         setTimeout(() => setIsSubmitted(false), 5000)
       } else {
         console.error('Form submission failed')
@@ -431,9 +438,18 @@ export function Contact() {
     setIsSubmitting(false)
   }
 
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsNewsletterSubmitting(true)
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    
+    // Check honeypot
+    if (formData.get('website')) {
+      setIsNewsletterSubmitting(false)
+      return // Bot detected, do nothing
+    }
 
     try {
       const response = await fetch('https://formspree.io/f/xpwrvake', {
@@ -451,8 +467,6 @@ export function Contact() {
       if (response.ok) {
         setIsNewsletterSubmitted(true)
         setNewsletterEmail('')
-        
-        // Reset success message after 5 seconds
         setTimeout(() => setIsNewsletterSubmitted(false), 5000)
       } else {
         console.error('Newsletter submission failed')
@@ -511,6 +525,16 @@ export function Contact() {
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   required
                   disabled={isNewsletterSubmitting}
+                />
+                {/* Add honeypot field */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                  style={{ display: 'none' }}
                 />
                 <NewsletterButton type="submit" disabled={isNewsletterSubmitting}>
                   <span>{isNewsletterSubmitting ? 'Signing up...' : 'Sign Up'}</span>
@@ -592,6 +616,17 @@ export function Contact() {
                 placeholder="Tell me about your interests and what kind of birding experience you're looking for..."
               />
             </FormGroup>
+
+            {/* Add honeypot field */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="hidden"
+              style={{ display: 'none' }}
+            />
 
             <SubmitButton 
               type="submit" 
