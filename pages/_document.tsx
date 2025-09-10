@@ -42,14 +42,14 @@ export default class MyDocument extends Document {
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://santafebirding.com" />
-          <meta property="og:title" content="Santa Fe Birding - Expert Guided Tours in New Mexico" />
+          <meta property="og:title" content="Santa Fe Birding - Expert Guided Bird Watching Tours in New Mexico" />
           <meta property="og:description" content="Expert birding tours and bird watching experiences in Santa Fe, New Mexico. Professional guide Chris Chappell offers personalized birding adventures and educational tours." />
           <meta property="og:image" content="https://santafebirding.com/images/hero-birding.jpg" />
           
           {/* Twitter */}
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://santafebirding.com" />
-          <meta property="twitter:title" content="Santa Fe Birding - Expert Guided Tours in New Mexico" />
+          <meta property="twitter:title" content="Santa Fe Birding - Expert Guided Bird Watching Tours in New Mexico" />
           <meta property="twitter:description" content="Expert birding tours and bird watching experiences in Santa Fe, New Mexico. Professional guide Chris Chappell offers personalized birding adventures and educational tours." />
           <meta property="twitter:image" content="https://santafebirding.com/images/hero-birding.jpg" />
 
