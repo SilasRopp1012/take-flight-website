@@ -17,7 +17,7 @@ export const content = {
   // Hero Section
   hero: {
     title: "New Mexico Birding,\nDone Right.",
-    subtitle: "Explore the trails and skies of NM with a lifelong birder as your guide. Offering personalized tours, educational group adventures, and field-based classes."
+    subtitle: "Explore the trails and skies of New Mexico with a lifelong birder as your guide. Offering personalized tours, educational group adventures, and field-based classes."
   },
 
   // About Section

@@ -15,16 +15,16 @@ export default function Home() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "TourismBusiness",
-    "name": "Take Flight Birding and Nature Adventures",
-    "image": "https://takeflightbirding.com/images/hero-birding.jpg",
-    "description": "Expert birding tours and nature adventures in New Mexico. Professional guide Chris Chappell offers personalized experiences and educational tours.",
+    "name": "Santa Fe Birding",
+    "image": "https://santafebirding.com/images/hero-birding.jpg",
+    "description": "Expert guided birding tours and bird watching experiences in Santa Fe, New Mexico. Professional guide Chris Chappell offers personalized birding adventures, group tours, and educational classes.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Santa Fe",
       "addressRegion": "NM",
       "addressCountry": "US"
     },
-    "url": "https://takeflightbirding.com",
+    "url": "https://santafebirding.com",
     "telephone": "+1-505-310-3205",
     "priceRange": "$$",
     "openingHours": "Mo-Su",
@@ -33,15 +33,15 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Take Flight Birding and Nature Adventures</title>
-        <meta name="description" content="Guided birding and nature tours with heart" />
+        <title>Santa Fe Birding - Expert Guided Bird Watching Tours in New Mexico</title>
+        <meta name="description" content="Professional birding tours and bird watching experiences in Santa Fe, New Mexico. Expert guide Chris Chappell offers personalized birding adventures, group tours, and educational classes." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         
         {/* Open Graph for social sharing */}
-        <meta property="og:title" content="Take Flight Birding and Nature Adventures" />
-        <meta property="og:description" content="Expert-guided birding tours in New Mexico" />
+        <meta property="og:title" content="Santa Fe Birding - Expert Guided Tours in New Mexico" />
+        <meta property="og:description" content="Professional birding tours and bird watching experiences in Santa Fe, New Mexico with expert guide Chris Chappell." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com" />
+        <meta property="og:url" content="https://santafebirding.com" />
         
         {/* Local business schema */}
         <script type="application/ld+json">
@@ -49,13 +49,18 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "Take Flight Birding and Nature Adventures",
-            "description": "Guided birding tours in New Mexico",
+            "alternateName": "Santa Fe Birding Tours",
+            "description": "Expert guided birding tours and bird watching experiences in Santa Fe, New Mexico",
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Santa Fe",
               "addressRegion": "NM"
             },
-            "telephone": "(505)-310-3205"
+            "telephone": "(505)-310-3205",
+            "areaServed": {
+              "@type": "City",
+              "name": "Santa Fe"
+            }
           })}
         </script>
         

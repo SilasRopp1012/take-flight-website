@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://takeflightbirding.com/sitemap.xml 
+Sitemap: https://santafebirding.com/sitemap.xml 

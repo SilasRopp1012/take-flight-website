@@ -487,7 +487,8 @@ export function Contact() {
           fill
           style={{ 
             objectFit: 'cover',
-            objectPosition: 'center center'
+            objectPosition: 'center center',
+            transform: 'scaleX(-1)' // This flips the image horizontally
           }}
           sizes="100vw"
         />

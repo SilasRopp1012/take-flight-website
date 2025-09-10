@@ -35,26 +35,26 @@ export default class MyDocument extends Document {
           {/* Character Set */}
           <meta charSet="utf-8" />
           
-          {/* Primary Meta Tags - Enhanced from your existing ones */}
-          <meta name="description" content="Expert birding tours and nature adventures in New Mexico. Join professional guide Chris Chappell for personalized birding experiences, educational group tours, and field-based classes." />
-          <meta name="keywords" content="birding, nature tours, bird watching, guided tours, New Mexico birding, Chris Chappell, Albuquerque birding, Santa Fe birding" />
+          {/* Primary Meta Tags - Updated for Santa Fe Birding */}
+          <meta name="description" content="Expert birding tours and bird watching experiences in Santa Fe, New Mexico. Join professional guide Chris Chappell for personalized birding adventures, educational group tours, and field-based classes." />
+          <meta name="keywords" content="Santa Fe birding, bird watching Santa Fe, guided birding tours, New Mexico birding, birding tours Santa Fe, Chris Chappell, bird watching New Mexico, Santa Fe nature tours" />
           
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://takeflightbirding.com" />
-          <meta property="og:title" content="Take Flight Birding and Nature Adventures" />
-          <meta property="og:description" content="Expert birding tours and nature adventures in New Mexico. Professional guide Chris Chappell offers personalized experiences and educational tours." />
-          <meta property="og:image" content="https://takeflightbirding.com/images/hero-birding.jpg" />
+          <meta property="og:url" content="https://santafebirding.com" />
+          <meta property="og:title" content="Santa Fe Birding - Expert Guided Tours in New Mexico" />
+          <meta property="og:description" content="Expert birding tours and bird watching experiences in Santa Fe, New Mexico. Professional guide Chris Chappell offers personalized birding adventures and educational tours." />
+          <meta property="og:image" content="https://santafebirding.com/images/hero-birding.jpg" />
           
           {/* Twitter */}
           <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:url" content="https://takeflightbirding.com" />
-          <meta property="twitter:title" content="Take Flight Birding and Nature Adventures" />
-          <meta property="twitter:description" content="Expert birding tours and nature adventures in New Mexico. Professional guide Chris Chappell offers personalized experiences and educational tours." />
-          <meta property="twitter:image" content="https://takeflightbirding.com/images/hero-birding.jpg" />
+          <meta property="twitter:url" content="https://santafebirding.com" />
+          <meta property="twitter:title" content="Santa Fe Birding - Expert Guided Tours in New Mexico" />
+          <meta property="twitter:description" content="Expert birding tours and bird watching experiences in Santa Fe, New Mexico. Professional guide Chris Chappell offers personalized birding adventures and educational tours." />
+          <meta property="twitter:image" content="https://santafebirding.com/images/hero-birding.jpg" />
 
           {/* Canonical URL */}
-          <link rel="canonical" href="https://takeflightbirding.com" />
+          <link rel="canonical" href="https://santafebirding.com" />
 
           {/* Preload critical fonts */}
           <link
